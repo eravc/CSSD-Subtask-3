@@ -7,9 +7,11 @@ public class FieldStation implements Serializable{
  
  private int fieldStationID;
  private Field field;
- private Field location;   
- 
- 
+ private int userID;
+private String name;
+private String location;
+private double longtitude;
+private double latitude;
 
     /**
      * @return the fieldStationID
@@ -40,18 +42,79 @@ public class FieldStation implements Serializable{
     }
 
     /**
+     * @return the userID
+     */
+    public int getUserID() {
+        return userID;
+    }
+
+    /**
+     * @param userID the userID to set
+     */
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
      * @return the location
      */
-    public Field getLocation() {
+    public String getLocation() {
         return location;
     }
 
     /**
      * @param location the location to set
      */
-    public void setLocation(Field location) {
+    public void setLocation(String location) {
         this.location = location;
     }
+
+    /**
+     * @return the longtitude
+     */
+    public double getLongtitude() {
+        return longtitude;
+    }
+
+    /**
+     * @param longtitude the longtitude to set
+     */
+    public void setLongtitude(double longtitude) {
+        this.longtitude = longtitude;
+    }
+
+    /**
+     * @return the latitude
+     */
+    public double getLatitude() {
+        return latitude;
+    }
+
+    /**
+     * @param latitude the latitude to set
+     */
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+ 
+
+    /**
+     * @return the fieldStationID
+     */
  
  
     
