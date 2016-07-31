@@ -5,11 +5,17 @@
  */
 package interfaces.Desktop;
 
+import Sensors.AirTemperatureSensor;
+import Sensors.CropMoistureSensor;
+import Sensors.LightSensor;
+import Sensors.RainfallSensor;
+import Sensors.SetOfSensors;
+import Sensors.SoilAciditySensor;
+import Sensors.SoilTemperatureSensor;
+import Sensors.WindSensor;
 import javax.swing.JOptionPane;
 import Users.Farmer;
 import Users.Manager;
-import serialization.Serialization;
-import Users.setOfUsers;
 import java.util.Vector;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -21,22 +27,22 @@ import javax.swing.table.DefaultTableModel;
  */
 public class SensorManagement extends javax.swing.JFrame {
 
-    private setOfUsers sou = new setOfUsers();
+    private SetOfSensors sos = new SetOfSensors();
 
     /**
      * Creates new form Login
      */
     public SensorManagement() {
         try {
-            sou.deserialize();
+            sos.deserialize();
         } catch (Exception e) {
         }
 
         initComponents();
 
-        userTableLoad(sou, jTable1, jScrollPane1);
-        userTableLoad(sou, jTable2, jScrollPane2);
-        userTableLoad(sou, jTable3, jScrollPane3);
+        sensorTableLoad(sos, jTable1, jScrollPane1);
+        sensorTableLoad(sos, jTable2, jScrollPane2);
+        sensorTableLoad(sos, jTable3, jScrollPane3);
     }
 
     /**
@@ -44,71 +50,102 @@ public class SensorManagement extends javax.swing.JFrame {
      *
      * @param users
      */
-    /*public void userTableLoad(setOfUsers users, JTable table, JScrollPane pane) {
+    public void sensorTableLoad(SetOfSensors sensors, JTable table, JScrollPane pane) {
         Vector tmp = new Vector<>();
-        Vector<Farmer> far = users.getAllFarmers();
+        Vector<AirTemperatureSensor> ats = sensors.getAirTemperatureSensor();
+        Vector<CropMoistureSensor> cms = sensors.getCropMoistureSensor();
+        Vector<LightSensor> ls = sensors.getLightSensor();
+        Vector<RainfallSensor> rfs = sensors.getRainfallSensor();
+        Vector<SoilAciditySensor> sas = sensors.getSoilAciditySensor();
+        Vector<SoilTemperatureSensor> sts = sensors.getSoilTemperatureSensor();
+        Vector<WindSensor> ws = sensors.getWindSensor();
 
-        System.out.println(users.getAllFarmers());
-
-        for (Farmer fm : far) {
+        for (AirTemperatureSensor item: ats) {
             Vector row = new Vector();
-            row.addElement(fm.getUserId());
-            row.addElement(fm.getName());
-            row.addElement(fm.getUsername());
-            row.addElement(fm.getEmail());
-            row.addElement(fm.getType());
+            row.addElement(item.getSensorID());
+            row.addElement(item.getName());
+            row.addElement(item.getModel());
+            row.addElement(item.getBrand());
+            row.addElement(item.getPurpose());
+            row.addElement("AirTemperatureSensor");
 
             tmp.add(row);
         }
+        for (CropMoistureSensor item: cms) {
+            Vector row = new Vector();
+            row.addElement(item.getSensorID());
+            row.addElement(item.getName());
+            row.addElement(item.getModel());
+            row.addElement(item.getBrand());
+            row.addElement(item.getPurpose());
+            row.addElement("CropMoistureSensor");
+
+            tmp.add(row);
+        }
+        for (LightSensor item: ls) {
+            Vector row = new Vector();
+            row.addElement(item.getSensorID());
+            row.addElement(item.getName());
+            row.addElement(item.getModel());
+            row.addElement(item.getBrand());
+            row.addElement(item.getPurpose());
+            row.addElement("LightSensor");
+
+            tmp.add(row);
+        }
+        for (SoilAciditySensor item: sas) {
+            Vector row = new Vector();
+            row.addElement(item.getSensorID());
+            row.addElement(item.getName());
+            row.addElement(item.getModel());
+            row.addElement(item.getBrand());
+            row.addElement(item.getPurpose());
+            row.addElement("SoilAciditySensor");
+
+            tmp.add(row);
+        }
+        for (RainfallSensor item: rfs) {
+            Vector row = new Vector();
+            row.addElement(item.getSensorID());
+            row.addElement(item.getName());
+            row.addElement(item.getModel());
+            row.addElement(item.getBrand());
+            row.addElement(item.getPurpose());
+            row.addElement("RainfallSensor");
+
+            tmp.add(row);
+        }
+        for (SoilTemperatureSensor item: sts) {
+            Vector row = new Vector();
+            row.addElement(item.getSensorID());
+            row.addElement(item.getName());
+            row.addElement(item.getModel());
+            row.addElement(item.getBrand());
+            row.addElement(item.getPurpose());
+            row.addElement("SoilTemperatureSensor");
+
+            tmp.add(row);
+        }
+        for (WindSensor item: ws) {
+            Vector row = new Vector();
+            row.addElement(item.getSensorID());
+            row.addElement(item.getName());
+            row.addElement(item.getModel());
+            row.addElement(item.getBrand());
+            row.addElement(item.getPurpose());
+            row.addElement("WindSensor");
+
+            tmp.add(row);
+        }
+
         //set column headings
         Vector columnNames = new Vector();
-        columnNames.addElement("User ID");
+        columnNames.addElement("Sensor ID");
         columnNames.addElement("Name");
-        columnNames.addElement("email");
-        columnNames.addElement("Username");
-        columnNames.addElement("User Type");
-        //set table model
-        DefaultTableModel model = new DefaultTableModel(tmp, columnNames);
-
-        table.setModel(model);
-        pane.setViewportView(table);
-        table.setAutoscrolls(true);
-        table.getTableHeader().setReorderingAllowed(false);
-    }*/
-    
-    public void userTableLoad(setOfUsers users, JTable table, JScrollPane pane) {
-        Vector tmp = new Vector<>();
-        Vector<Farmer> far = users.getAllFarmers();
-        Vector<Manager> man = users.getAllManagers();
-
-        for (Farmer fm : far) {
-            Vector row = new Vector();
-            row.addElement(fm.getUserId());
-            row.addElement(fm.getName());
-            row.addElement(fm.getUsername());
-            row.addElement(fm.getEmail());
-            row.addElement(fm.getType());
-
-            tmp.add(row);
-        }
-        
-        for (Manager mn : man) {
-            Vector row = new Vector();
-            row.addElement(mn.getUserId());
-            row.addElement(mn.getName());
-            row.addElement(mn.getUsername());
-            row.addElement(mn.getEmail());
-            row.addElement(mn.getType());
-
-            tmp.add(row);
-        }
-        //set column headings
-        Vector columnNames = new Vector();
-        columnNames.addElement("User ID");
-        columnNames.addElement("Name");
-        columnNames.addElement("email");
-        columnNames.addElement("Username");
-        columnNames.addElement("User Type");
+        columnNames.addElement("Model");
+        columnNames.addElement("Brand");
+        columnNames.addElement("Perpose");
+        columnNames.addElement("Type");
         //set table model
         DefaultTableModel model = new DefaultTableModel(tmp, columnNames);
 
@@ -134,7 +171,7 @@ public class SensorManagement extends javax.swing.JFrame {
         txt_add_sense_id = new javax.swing.JTextField();
         txt_add_sense_brand = new javax.swing.JTextField();
         txt_add_sense_purpose = new javax.swing.JTextField();
-        cmb_add_type = new javax.swing.JComboBox<>();
+        cmb_add_sense_type = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
@@ -232,8 +269,8 @@ public class SensorManagement extends javax.swing.JFrame {
         });
         AddSensor.add(txt_add_sense_purpose, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 280, 280, 30));
 
-        cmb_add_type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Air Temperature Sensor", "Crop Moisture Sensor", "Light Sensor", "Rainfall Sensor", "Soil Acidity Sensor", "Soil Temperature Sensor", "Wind Sensor" }));
-        AddSensor.add(cmb_add_type, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 280, 30));
+        cmb_add_sense_type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Air Temperature Sensor", "Crop Moisture Sensor", "Light Sensor", "Rainfall Sensor", "Soil Acidity Sensor", "Soil Temperature Sensor", "Wind Sensor" }));
+        AddSensor.add(cmb_add_sense_type, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 280, 30));
 
         jLabel6.setBackground(new java.awt.Color(102, 102, 102));
         jLabel6.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
@@ -607,17 +644,17 @@ public class SensorManagement extends javax.swing.JFrame {
 
     private void btn_adduserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adduserActionPerformed
 
-        String name = txt_add_sense_id.getText().toString();
-        String email = txt_add_sense_brand.getText().toString();
-        String username = txt_add_sense_purpose.getText().toString();
-        String password = txt_add_password.getText().toString();
-        String type = cmb_add_type.getSelectedItem().toString();
+        String id = txt_add_sense_id.getText().toString();
+        String brand = txt_add_sense_brand.getText().toString();
+        String purpose = txt_add_sense_purpose.getText().toString();
+        String model = txt_add_sense_model.getText().toString();
+        String type = cmb_add_sense_type.getSelectedItem().toString();
 
-        if (txt_add_sense_id.getText().isEmpty() | txt_add_sense_brand.getText().isEmpty() | txt_add_sense_purpose.getText().isEmpty()) {
+        if (txt_add_sense_id.getText().isEmpty() | txt_add_sense_brand.getText().isEmpty() | txt_add_sense_purpose.getText().isEmpty() | txt_add_sense_model.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill up the fields.");
         }else{
             if (type.equalsIgnoreCase("Farmer")) {
-                Farmer fm = new Farmer(name, username, email, password, type);
+                Farmer fm = new Farmer(id, purpose, model, brand);
                 sou.addFarmer(fm);
 
                 try {
@@ -855,7 +892,7 @@ public class SensorManagement extends javax.swing.JFrame {
     private javax.swing.JLabel background4;
     private javax.swing.JButton btn_adduser;
     private javax.swing.JButton btn_adduser1;
-    private javax.swing.JComboBox<String> cmb_add_type;
+    private javax.swing.JComboBox<String> cmb_add_sense_type;
     private javax.swing.JComboBox<String> cmb_add_type1;
     private javax.swing.JComboBox<String> cmb_add_type2;
     private javax.swing.JComboBox<String> cmb_add_type3;

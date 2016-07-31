@@ -5,9 +5,6 @@
  */
 package Sensors;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -16,17 +13,17 @@ import java.util.Date;
  * @author Aklive
  */
 class Sensors implements Serializable {
-    private static int sensorID;
-    private String name;
+    private int sensorID;
     private String purpose;
-    private int interval;
-    private Date date; 
+    private String model;
+    private String brand;
+    private int interval = 0; 
 
-    public Sensors(String name, String purpose, int interval, Date date) {
-        this.name = name;
+    public Sensors(int id, String purpose, String model, String brand) {
+        this.sensorID = id;
         this.purpose = purpose;
-        this.interval = interval;
-        this.date = date;
+        this.model = model;
+        this.brand = brand;
     }
     /**
      * @return the sensorID
@@ -40,20 +37,6 @@ class Sensors implements Serializable {
      */
     public void setSensorID(int sensorID) {
         this.sensorID = sensorID;
-    }
-
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**
@@ -83,29 +66,32 @@ class Sensors implements Serializable {
     public void setInterval(int interval) {
         this.interval = interval;
     }
+    
+    /**
+     * @return the model
+     */
+    public String getModel() {
+        return model;
+    }
 
     /**
-     * @return the date
+     * @param model the model to set
      */
-    public Date getDate() {
-        return date;
+    public void setModel(String model) {
+        this.model = model;
     }
 
     /**
-     * @param date the date to set
+     * @return the brand
      */
-    public void setDate(Date date) {
-        this.date = date;
-    }
-    
-    private void writeObject(ObjectOutputStream oos)throws IOException{
-        oos.defaultWriteObject();
-        oos.writeObject(sensorID);
+    public String getBrand() {
+        return brand;
     }
 
-    private void readObject(ObjectInputStream ois)throws ClassNotFoundException, IOException{
-        ois.defaultReadObject();
-        sensorID = (Integer)ois.readObject();
-    }
-    
+    /**
+     * @param brand the brand to set
+     */
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }  
 }

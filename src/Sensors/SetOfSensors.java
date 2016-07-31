@@ -71,8 +71,32 @@ public class SetOfSensors extends Vector<Sensors> implements Serializable  {
     public static void addWindSensor(WindSensor ws) {
         setOfWindSensor.add(ws);
     }
-    
+    //--------------------------------------------------------
     public static Vector getAirTemperatureSensor(){
         return setOfAirTemperatureSensor;
+    }
+    
+    public static Vector getCropMoistureSensor(){
+        return setOfCropMoistureSensor;
+    }
+    
+    public static Vector getLightSensor(){
+        return setOfLightSensor;
+    }
+    
+    public static Vector getSoilAciditySensor(){
+        return setOfSoilAciditySensor;
+    }
+    
+    public static Vector getSoilTemperatureSensor(){
+        return setOfSoilTemperatureSensor;
+    }
+    
+    public static Vector getRainfallSensor(){
+        return setOfRainfallSensor;
+    }
+    
+    public static Vector getWindSensor(){
+        return setOfWindSensor;
     }
 }
