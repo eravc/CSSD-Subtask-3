@@ -16,8 +16,8 @@ public class RainfallSensor extends Sensors{
     private double rainFall;
     private Time time;
 
-    public RainfallSensor(String name, String purpose, int interval, Date date) {
-        super(name, purpose, interval, date);
+    public RainfallSensor(int id, String purpose, String model, String brand) {
+        super(id, purpose, model, brand);
     }
 
     /**

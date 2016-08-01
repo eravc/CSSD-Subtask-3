@@ -9,6 +9,9 @@ import Sensors.AirTemperatureSensor;
 import Sensors.CropMoistureSensor;
 import Sensors.LightSensor;
 import Sensors.RainfallSensor;
+import Sensors.SensorGroup;
+import Sensors.SensorGroupControl;
+import Sensors.Sensors;
 import Sensors.SetOfSensors;
 import Sensors.SoilAciditySensor;
 import Sensors.SoilTemperatureSensor;
@@ -28,6 +31,17 @@ import javax.swing.table.DefaultTableModel;
 public class SensorManagement extends javax.swing.JFrame {
 
     private SetOfSensors sos = new SetOfSensors();
+    private SensorGroupControl sgc = new SensorGroupControl();
+    private SetOfSensors newSos = new SetOfSensors();
+    private SetOfSensors categorizeSos = new SetOfSensors();
+
+    private Vector<AirTemperatureSensor> airts;
+    private Vector<CropMoistureSensor> cropms;
+    private Vector<LightSensor> lights;
+    private Vector<SoilAciditySensor> soilas;
+    private Vector<SoilTemperatureSensor> soilts;
+    private Vector<RainfallSensor> rainfs;
+    private Vector<WindSensor> winds;
 
     /**
      * Creates new form Login
@@ -40,9 +54,9 @@ public class SensorManagement extends javax.swing.JFrame {
 
         initComponents();
 
-        sensorTableLoad(sos, jTable1, jScrollPane1);
-        sensorTableLoad(sos, jTable2, jScrollPane2);
-        sensorTableLoad(sos, jTable3, jScrollPane3);
+        sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+        sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+        sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
     }
 
     /**
@@ -60,80 +74,73 @@ public class SensorManagement extends javax.swing.JFrame {
         Vector<SoilTemperatureSensor> sts = sensors.getSoilTemperatureSensor();
         Vector<WindSensor> ws = sensors.getWindSensor();
 
-        for (AirTemperatureSensor item: ats) {
+        for (AirTemperatureSensor item : ats) {
             Vector row = new Vector();
             row.addElement(item.getSensorID());
-            row.addElement(item.getName());
             row.addElement(item.getModel());
             row.addElement(item.getBrand());
             row.addElement(item.getPurpose());
-            row.addElement("AirTemperatureSensor");
+            row.addElement("Air Temperature Sensor");
 
             tmp.add(row);
         }
-        for (CropMoistureSensor item: cms) {
+        for (CropMoistureSensor item : cms) {
             Vector row = new Vector();
             row.addElement(item.getSensorID());
-            row.addElement(item.getName());
             row.addElement(item.getModel());
             row.addElement(item.getBrand());
             row.addElement(item.getPurpose());
-            row.addElement("CropMoistureSensor");
+            row.addElement("Crop Moisture Sensor");
 
             tmp.add(row);
         }
-        for (LightSensor item: ls) {
+        for (LightSensor item : ls) {
             Vector row = new Vector();
             row.addElement(item.getSensorID());
-            row.addElement(item.getName());
             row.addElement(item.getModel());
             row.addElement(item.getBrand());
             row.addElement(item.getPurpose());
-            row.addElement("LightSensor");
+            row.addElement("Light Sensor");
 
             tmp.add(row);
         }
-        for (SoilAciditySensor item: sas) {
+        for (SoilAciditySensor item : sas) {
             Vector row = new Vector();
             row.addElement(item.getSensorID());
-            row.addElement(item.getName());
             row.addElement(item.getModel());
             row.addElement(item.getBrand());
             row.addElement(item.getPurpose());
-            row.addElement("SoilAciditySensor");
+            row.addElement("Soil Acidity Sensor");
 
             tmp.add(row);
         }
-        for (RainfallSensor item: rfs) {
+        for (RainfallSensor item : rfs) {
             Vector row = new Vector();
             row.addElement(item.getSensorID());
-            row.addElement(item.getName());
             row.addElement(item.getModel());
             row.addElement(item.getBrand());
             row.addElement(item.getPurpose());
-            row.addElement("RainfallSensor");
+            row.addElement("Rainfall Sensor");
 
             tmp.add(row);
         }
-        for (SoilTemperatureSensor item: sts) {
+        for (SoilTemperatureSensor item : sts) {
             Vector row = new Vector();
             row.addElement(item.getSensorID());
-            row.addElement(item.getName());
             row.addElement(item.getModel());
             row.addElement(item.getBrand());
             row.addElement(item.getPurpose());
-            row.addElement("SoilTemperatureSensor");
+            row.addElement("Soil Temperature Sensor");
 
             tmp.add(row);
         }
-        for (WindSensor item: ws) {
+        for (WindSensor item : ws) {
             Vector row = new Vector();
             row.addElement(item.getSensorID());
-            row.addElement(item.getName());
             row.addElement(item.getModel());
             row.addElement(item.getBrand());
             row.addElement(item.getPurpose());
-            row.addElement("WindSensor");
+            row.addElement("Wind Sensor");
 
             tmp.add(row);
         }
@@ -141,7 +148,6 @@ public class SensorManagement extends javax.swing.JFrame {
         //set column headings
         Vector columnNames = new Vector();
         columnNames.addElement("Sensor ID");
-        columnNames.addElement("Name");
         columnNames.addElement("Model");
         columnNames.addElement("Brand");
         columnNames.addElement("Perpose");
@@ -175,50 +181,52 @@ public class SensorManagement extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        btn_adduser = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
+        btn_addSensor = new javax.swing.JButton();
+        btn_resetSensor = new javax.swing.JButton();
+        addSensorScrollPane = new javax.swing.JScrollPane();
+        addSensorTable = new javax.swing.JTable();
         jLabel17 = new javax.swing.JLabel();
         txt_add_sense_model = new javax.swing.JTextField();
         jLabel20 = new javax.swing.JLabel();
         background = new javax.swing.JLabel();
         DeleteSensor = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        deleteSensorScrollpane = new javax.swing.JScrollPane();
+        deleteSensorTable = new javax.swing.JTable();
         jButton9 = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        lbl_delete_name = new javax.swing.JLabel();
-        lbl_delete_type = new javax.swing.JLabel();
+        lbl_delete_sensor_type = new javax.swing.JLabel();
+        lbl_delete_sensor_id = new javax.swing.JLabel();
         background2 = new javax.swing.JLabel();
         AddSensorGroup = new javax.swing.JPanel();
-        txt_add_email1 = new javax.swing.JTextField();
+        txt_add_sengrp_category = new javax.swing.JTextField();
         jLabel19 = new javax.swing.JLabel();
-        btn_adduser1 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTable4 = new javax.swing.JTable();
+        btn_add_sengrp = new javax.swing.JButton();
+        btn_reset_sengrp = new javax.swing.JButton();
+        add_sengrp_scrollpane = new javax.swing.JScrollPane();
+        add_sengrp_table = new javax.swing.JTable();
         jLabel22 = new javax.swing.JLabel();
-        txt_add_username3 = new javax.swing.JTextField();
-        jLabel23 = new javax.swing.JLabel();
+        txt_add_sengrp_name = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        cmb_add_type1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        cmb_add_type3 = new javax.swing.JComboBox<>();
+        cmb_add_sen_type = new javax.swing.JComboBox<>();
+        btn_check_sen_availability = new javax.swing.JButton();
+        cmb_chk_sen_type = new javax.swing.JComboBox<>();
         jLabel27 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
-        jLabel26 = new javax.swing.JLabel();
-        background3 = new javax.swing.JLabel();
+        txt_add_sen_interval = new javax.swing.JTextField();
+        jLabel31 = new javax.swing.JLabel();
+        btn_add_sen = new javax.swing.JButton();
         jLabel21 = new javax.swing.JLabel();
-        txt_add_name2 = new javax.swing.JTextField();
-        cmb_add_type2 = new javax.swing.JComboBox<>();
+        txt_add_sengrp_id = new javax.swing.JTextField();
+        cmb_add_sengrp_count = new javax.swing.JComboBox<>();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel33 = new javax.swing.JLabel();
+        background3 = new javax.swing.JLabel();
         EditSensorGroup = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        scollpane_edit_sengrp = new javax.swing.JScrollPane();
+        table_edit_sengrp = new javax.swing.JTable();
         jButton7 = new javax.swing.JButton();
         jLabel18 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
@@ -288,23 +296,23 @@ public class SensorManagement extends javax.swing.JFrame {
         jLabel8.setText("Purpose");
         AddSensor.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 280, 80, 30));
 
-        btn_adduser.setText("Add Sensor");
-        btn_adduser.addActionListener(new java.awt.event.ActionListener() {
+        btn_addSensor.setText("Add Sensor");
+        btn_addSensor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_adduserActionPerformed(evt);
+                btn_addSensorActionPerformed(evt);
             }
         });
-        AddSensor.add(btn_adduser, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 330, 120, 30));
+        AddSensor.add(btn_addSensor, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 330, 120, 30));
 
-        jButton8.setText("Reset");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
+        btn_resetSensor.setText("Reset");
+        btn_resetSensor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
+                btn_resetSensorActionPerformed(evt);
             }
         });
-        AddSensor.add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 120, 30));
+        AddSensor.add(btn_resetSensor, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 120, 30));
 
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
+        addSensorTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -315,9 +323,9 @@ public class SensorManagement extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable3);
+        addSensorScrollPane.setViewportView(addSensorTable);
 
-        AddSensor.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 50, -1, 370));
+        AddSensor.add(addSensorScrollPane, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 50, -1, 370));
 
         jLabel17.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
         jLabel17.setForeground(new java.awt.Color(102, 102, 102));
@@ -341,7 +349,7 @@ public class SensorManagement extends javax.swing.JFrame {
         DeleteSensor.setBackground(new java.awt.Color(255, 255, 255));
         DeleteSensor.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        deleteSensorTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -352,14 +360,14 @@ public class SensorManagement extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
+        deleteSensorTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable2MouseClicked(evt);
+                deleteSensorTableMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        deleteSensorScrollpane.setViewportView(deleteSensorTable);
 
-        DeleteSensor.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 700, 300));
+        DeleteSensor.add(deleteSensorScrollpane, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 50, 700, 300));
 
         jButton9.setText("Delete");
         jButton9.addActionListener(new java.awt.event.ActionListener() {
@@ -378,9 +386,9 @@ public class SensorManagement extends javax.swing.JFrame {
         jLabel16.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(102, 102, 102));
         jLabel16.setText("Selected");
-        DeleteSensor.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 360, 120, 30));
-        DeleteSensor.add(lbl_delete_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 360, 120, 30));
-        DeleteSensor.add(lbl_delete_type, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, 140, 30));
+        DeleteSensor.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 360, 120, 30));
+        DeleteSensor.add(lbl_delete_sensor_type, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 360, 140, 30));
+        DeleteSensor.add(lbl_delete_sensor_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 360, 140, 30));
 
         background2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaces/Desktop/Images/grass_PNG401.png"))); // NOI18N
         DeleteSensor.add(background2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 570));
@@ -390,30 +398,30 @@ public class SensorManagement extends javax.swing.JFrame {
         AddSensorGroup.setBackground(new java.awt.Color(255, 255, 255));
         AddSensorGroup.setPreferredSize(new java.awt.Dimension(1000, 620));
         AddSensorGroup.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        AddSensorGroup.add(txt_add_email1, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 280, 30));
+        AddSensorGroup.add(txt_add_sengrp_category, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 120, 280, 30));
 
         jLabel19.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(102, 102, 102));
         jLabel19.setText("Name");
         AddSensorGroup.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 80, 70, 30));
 
-        btn_adduser1.setText("Add Sensor");
-        btn_adduser1.addActionListener(new java.awt.event.ActionListener() {
+        btn_add_sengrp.setText("Create Sensor Group");
+        btn_add_sengrp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_adduser1ActionPerformed(evt);
+                btn_add_sengrpActionPerformed(evt);
             }
         });
-        AddSensorGroup.add(btn_adduser1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 200, 120, 30));
+        AddSensorGroup.add(btn_add_sengrp, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 320, 190, 60));
 
-        jButton11.setText("Reset");
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
+        btn_reset_sengrp.setText("Reset");
+        btn_reset_sengrp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
+                btn_reset_sengrpActionPerformed(evt);
             }
         });
-        AddSensorGroup.add(jButton11, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 120, 30));
+        AddSensorGroup.add(btn_reset_sengrp, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, 120, 30));
 
-        jTable4.setModel(new javax.swing.table.DefaultTableModel(
+        add_sengrp_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -424,23 +432,18 @@ public class SensorManagement extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane4.setViewportView(jTable4);
+        add_sengrp_scrollpane.setViewportView(add_sengrp_table);
 
-        AddSensorGroup.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 270, 900, 160));
+        AddSensorGroup.add(add_sengrp_scrollpane, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 630, 160));
 
         jLabel22.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
         jLabel22.setForeground(new java.awt.Color(102, 102, 102));
         jLabel22.setText("Category");
         AddSensorGroup.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, 90, 30));
 
-        txt_add_username3.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
-        txt_add_username3.setForeground(new java.awt.Color(102, 102, 102));
-        AddSensorGroup.add(txt_add_username3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 280, 30));
-
-        jLabel23.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
-        jLabel23.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel23.setText("No. Of Sensors");
-        AddSensorGroup.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 120, 30));
+        txt_add_sengrp_name.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
+        txt_add_sengrp_name.setForeground(new java.awt.Color(102, 102, 102));
+        AddSensorGroup.add(txt_add_sengrp_name, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 80, 280, 30));
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -452,46 +455,67 @@ public class SensorManagement extends javax.swing.JFrame {
         jLabel15.setBackground(new java.awt.Color(102, 102, 102));
         jLabel15.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
         jLabel15.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel15.setText("Sensor");
-        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 80, 30));
+        jLabel15.setText("Interval");
+        jPanel1.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 80, 30));
 
-        cmb_add_type1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Farmer", "Food Processing Manager" }));
-        jPanel1.add(cmb_add_type1, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 220, 30));
+        jPanel1.add(cmb_add_sen_type, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 100, 220, 30));
 
-        jButton1.setText("Available");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 70, -1, 30));
+        btn_check_sen_availability.setText("Available");
+        btn_check_sen_availability.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_check_sen_availabilityActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_check_sen_availability, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 60, -1, 30));
 
-        cmb_add_type3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Farmer", "Food Processing Manager" }));
-        jPanel1.add(cmb_add_type3, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 70, 220, 30));
+        cmb_chk_sen_type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Air Temperature Sensor", "Crop Moisture Sensor", "Light Sensor", "Rainfall Sensor", "Soil Acidity Sensor", "Soil Temperature Sensor", "Wind Sensor" }));
+        jPanel1.add(cmb_chk_sen_type, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 60, 220, 30));
 
         jLabel27.setBackground(new java.awt.Color(102, 102, 102));
         jLabel27.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
         jLabel27.setForeground(new java.awt.Color(102, 102, 102));
         jLabel27.setText("Type");
-        jPanel1.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 80, 30));
+        jPanel1.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, 80, 30));
+        jPanel1.add(txt_add_sen_interval, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 140, 220, 30));
 
-        jButton2.setText("Add");
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 150, 70, 30));
+        jLabel31.setBackground(new java.awt.Color(102, 102, 102));
+        jLabel31.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
+        jLabel31.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel31.setText("Sensor");
+        jPanel1.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 100, 80, 30));
+
+        btn_add_sen.setText("Add");
+        btn_add_sen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_add_senActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btn_add_sen, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 180, 100, 30));
 
         AddSensorGroup.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 20, 470, 230));
-
-        jLabel26.setFont(new java.awt.Font("Monotype Corsiva", 1, 24)); // NOI18N
-        jLabel26.setForeground(new java.awt.Color(102, 102, 102));
-        jLabel26.setText("Add Sensor Group");
-        AddSensorGroup.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 180, 30));
-
-        background3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaces/Desktop/Images/grass_PNG401.png"))); // NOI18N
-        AddSensorGroup.add(background3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1000, 600));
 
         jLabel21.setBackground(new java.awt.Color(102, 102, 102));
         jLabel21.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
         jLabel21.setForeground(new java.awt.Color(102, 102, 102));
         jLabel21.setText("ID");
         AddSensorGroup.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 80, 30));
-        AddSensorGroup.add(txt_add_name2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 280, 30));
+        AddSensorGroup.add(txt_add_sengrp_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, 280, 30));
 
-        cmb_add_type2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Farmer", "Food Processing Manager" }));
-        AddSensorGroup.add(cmb_add_type2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 240, 30));
+        cmb_add_sengrp_count.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5" }));
+        AddSensorGroup.add(cmb_add_sengrp_count, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 160, 240, 30));
+
+        jLabel26.setFont(new java.awt.Font("Monotype Corsiva", 1, 24)); // NOI18N
+        jLabel26.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel26.setText("Add Sensor Group");
+        AddSensorGroup.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 180, 30));
+
+        jLabel33.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
+        jLabel33.setForeground(new java.awt.Color(102, 102, 102));
+        jLabel33.setText("No. Of Sensors");
+        AddSensorGroup.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 120, 30));
+
+        background3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaces/Desktop/Images/grass_PNG401.png"))); // NOI18N
+        AddSensorGroup.add(background3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1000, 600));
 
         jTabbedPane1.addTab("Add Sensor Group", AddSensorGroup);
 
@@ -503,7 +527,7 @@ public class SensorManagement extends javax.swing.JFrame {
         jLabel10.setText("Edit Sensor Group");
         EditSensorGroup.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 240, 30));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table_edit_sengrp.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -514,14 +538,14 @@ public class SensorManagement extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+        table_edit_sengrp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable1MouseClicked(evt);
+                table_edit_sengrpMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(jTable1);
+        scollpane_edit_sengrp.setViewportView(table_edit_sengrp);
 
-        EditSensorGroup.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 770, 170));
+        EditSensorGroup.add(scollpane_edit_sengrp, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 60, 770, 170));
 
         jButton7.setText("Delete");
         jButton7.addActionListener(new java.awt.event.ActionListener() {
@@ -642,9 +666,9 @@ public class SensorManagement extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_adduserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adduserActionPerformed
+    private void btn_addSensorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_addSensorActionPerformed
 
-        String id = txt_add_sense_id.getText().toString();
+        int id = Integer.parseInt(txt_add_sense_id.getText());
         String brand = txt_add_sense_brand.getText().toString();
         String purpose = txt_add_sense_purpose.getText().toString();
         String model = txt_add_sense_model.getText().toString();
@@ -652,61 +676,160 @@ public class SensorManagement extends javax.swing.JFrame {
 
         if (txt_add_sense_id.getText().isEmpty() | txt_add_sense_brand.getText().isEmpty() | txt_add_sense_purpose.getText().isEmpty() | txt_add_sense_model.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill up the fields.");
-        }else{
-            if (type.equalsIgnoreCase("Farmer")) {
-                Farmer fm = new Farmer(id, purpose, model, brand);
-                sou.addFarmer(fm);
+        } else if (type.equalsIgnoreCase("Air Temperature Sensor")) {
+            AirTemperatureSensor ats = new AirTemperatureSensor(id, purpose, model, brand);
+            sos.addAirTemperatureSensor(ats);
 
-                try {
-                    sou.serialize();
-                    JOptionPane.showMessageDialog(rootPane, "User successfully Added");
+            try {
+                sos.serialize();
+                System.out.println(sos);
+                JOptionPane.showMessageDialog(rootPane, "Sensor successfully Added");
 
-                    sou.deserialize();
-                    userTableLoad(sou, jTable1, jScrollPane1);
-                    userTableLoad(sou, jTable2, jScrollPane2);
-                    userTableLoad(sou, jTable3, jScrollPane3);
+                sos.deserialize();
+                sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
 
-                    txt_add_sense_id.setText(null);
-                    txt_add_sense_brand.setText(null);
-                    txt_add_sense_purpose.setText(null);
-                } catch (Exception e1) {
-                }
-            } else if (type.equalsIgnoreCase("Food Processing Manager")) {
-                Manager mn = new Manager(name, username, email, password, type);
-                sou.addManager(mn);
+                txt_add_sense_id.setText(null);
+                txt_add_sense_brand.setText(null);
+                txt_add_sense_purpose.setText(null);
+                txt_add_sense_model.setText(null);
+            } catch (Exception e1) {
+            }
+        } else if (type.equalsIgnoreCase("Crop Moisture Sensor")) {
+            CropMoistureSensor cms = new CropMoistureSensor(id, purpose, model, brand);
+            sos.addCropMoistureSensor(cms);
 
-                try {
-                    sou.serialize();
-                    JOptionPane.showMessageDialog(rootPane, "User successfully Added");
+            try {
+                sos.serialize();
+                JOptionPane.showMessageDialog(rootPane, "Sensor successfully Added");
 
-                    sou.deserialize();
-                    userTableLoad(sou, jTable1, jScrollPane1);
-                    userTableLoad(sou, jTable2, jScrollPane2);
-                    userTableLoad(sou, jTable3, jScrollPane3);
+                sos.deserialize();
+                sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
 
-                    txt_add_sense_id.setText(null);
-                    txt_add_sense_brand.setText(null);
-                    txt_add_sense_purpose.setText(null);
-                } catch (Exception e1) {
-                }
+                txt_add_sense_id.setText(null);
+                txt_add_sense_brand.setText(null);
+                txt_add_sense_purpose.setText(null);
+                txt_add_sense_model.setText(null);
+            } catch (Exception e1) {
+            }
+        } else if (type.equalsIgnoreCase("Light Sensor")) {
+            LightSensor ls = new LightSensor(id, purpose, model, brand);
+            sos.addLightSensor(ls);
+
+            try {
+                sos.serialize();
+                JOptionPane.showMessageDialog(rootPane, "Sensor successfully Added");
+
+                sos.deserialize();
+                sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+
+                txt_add_sense_id.setText(null);
+                txt_add_sense_brand.setText(null);
+                txt_add_sense_purpose.setText(null);
+                txt_add_sense_model.setText(null);
+            } catch (Exception e1) {
+            }
+        } else if (type.equalsIgnoreCase("Soil Acidity Sensor")) {
+            SoilAciditySensor sas = new SoilAciditySensor(id, purpose, model, brand);
+            sos.addSoilAciditySensor(sas);
+
+            try {
+                sos.serialize();
+                JOptionPane.showMessageDialog(rootPane, "Sensor successfully Added");
+
+                sos.deserialize();
+                sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+
+                txt_add_sense_id.setText(null);
+                txt_add_sense_brand.setText(null);
+                txt_add_sense_purpose.setText(null);
+                txt_add_sense_model.setText(null);
+            } catch (Exception e1) {
+            }
+        } else if (type.equalsIgnoreCase("Rainfall Sensor")) {
+            RainfallSensor rfs = new RainfallSensor(id, purpose, model, brand);
+            sos.addRainfallSensor(rfs);
+
+            try {
+                sos.serialize();
+                JOptionPane.showMessageDialog(rootPane, "Sensor successfully Added");
+
+                sos.deserialize();
+                sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+
+                txt_add_sense_id.setText(null);
+                txt_add_sense_brand.setText(null);
+                txt_add_sense_purpose.setText(null);
+                txt_add_sense_model.setText(null);
+            } catch (Exception e1) {
+            }
+
+        } else if (type.equalsIgnoreCase("Soil Temperature Sensor")) {
+            SoilTemperatureSensor sts = new SoilTemperatureSensor(id, purpose, model, brand);
+            sos.addSoilTemperatureSensor(sts);
+
+            try {
+                sos.serialize();
+                JOptionPane.showMessageDialog(rootPane, "Sensor successfully Added");
+
+                sos.deserialize();
+                sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+
+                txt_add_sense_id.setText(null);
+                txt_add_sense_brand.setText(null);
+                txt_add_sense_purpose.setText(null);
+                txt_add_sense_model.setText(null);
+            } catch (Exception e1) {
+            }
+        } else if (type.equalsIgnoreCase("Wind Sensor")) {
+            WindSensor sts = new WindSensor(id, purpose, model, brand);
+            sos.addWindSensor(sts);
+
+            try {
+                sos.serialize();
+                JOptionPane.showMessageDialog(rootPane, "Sensor successfully Added");
+
+                sos.deserialize();
+                sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+
+                txt_add_sense_id.setText(null);
+                txt_add_sense_brand.setText(null);
+                txt_add_sense_purpose.setText(null);
+                txt_add_sense_model.setText(null);
+            } catch (Exception e1) {
             }
         }
-    }//GEN-LAST:event_btn_adduserActionPerformed
+    }//GEN-LAST:event_btn_addSensorActionPerformed
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+    private void btn_resetSensorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetSensorActionPerformed
         txt_add_sense_id.setText(null);
         txt_add_sense_brand.setText(null);
         txt_add_sense_purpose.setText(null);
-    }//GEN-LAST:event_jButton8ActionPerformed
+        txt_add_sense_model.setText(null);
+    }//GEN-LAST:event_btn_resetSensorActionPerformed
 
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        int r = jTable1.getSelectedRow();
+    private void table_edit_sengrpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_edit_sengrpMouseClicked
+        int r = table_edit_sengrp.getSelectedRow();
         //get the member number of the selected row
-        lbl_edit_name.setText(jTable1.getValueAt(r, 3).toString());
-        txt_edit_username.setText(jTable1.getValueAt(r, 1).toString());
-        txt_edit_email.setText(jTable1.getValueAt(r, 2).toString());
-        lbl_edit_type.setText(jTable1.getValueAt(r, 4).toString());
-    }//GEN-LAST:event_jTable1MouseClicked
+
+        lbl_edit_name.setText(table_edit_sengrp.getValueAt(r, 3).toString());
+        txt_edit_username.setText(table_edit_sengrp.getValueAt(r, 1).toString());
+        txt_edit_email.setText(table_edit_sengrp.getValueAt(r, 2).toString());
+        lbl_edit_type.setText(table_edit_sengrp.getValueAt(r, 4).toString());
+    }//GEN-LAST:event_table_edit_sengrpMouseClicked
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         String name = lbl_edit_name.getText().toString();
@@ -716,117 +839,233 @@ public class SensorManagement extends javax.swing.JFrame {
 
         if (txt_edit_email.getText().isEmpty() | txt_edit_username.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill up the fields.");
-        } else{
-            if (type.equalsIgnoreCase("Farmer")) {
-                Farmer fmr = sou.getFarmerByName(name);
-                String password = fmr.getPassword();
-                sou.removeFarmer(fmr);
+        } else if (type.equalsIgnoreCase("Farmer")) {
+            Farmer fmr = sou.getFarmerByName(name);
+            String password = fmr.getPassword();
+            sou.removeFarmer(fmr);
 
-                Farmer fm = new Farmer(name, username, email, password, type);
-                sou.addFarmer(fm);
+            Farmer fm = new Farmer(name, username, email, password, type);
+            sou.addFarmer(fm);
 
-                try {
-                    sou.serialize();
-                    JOptionPane.showMessageDialog(rootPane, "Successfully Saved");
+            try {
+                sou.serialize();
+                JOptionPane.showMessageDialog(rootPane, "Successfully Saved");
 
-                    sou.deserialize();
-                    userTableLoad(sou, jTable1, jScrollPane1);
-                    userTableLoad(sou, jTable2, jScrollPane2);
-                    userTableLoad(sou, jTable3, jScrollPane3);
+                sou.deserialize();
+                userTableLoad(sou, table_edit_sengrp, scollpane_edit_sengrp);
+                userTableLoad(sou, deleteSensorTable, deleteSensorScrollpane);
+                userTableLoad(sou, addSensorTable, addSensorScrollPane);
 
-                    lbl_edit_name.setText(null);
-                    txt_edit_email.setText(null);
-                    txt_edit_username.setText(null);
-                    lbl_edit_type.setText(null);
-                } catch (Exception e1) {
-                }
-            } else if (type.equalsIgnoreCase("Food Processing Manager")) {
-                Manager mnr = sou.getManagerByName(name);
-                String password = mnr.getPassword();
-                sou.removeManager(mnr);
+                lbl_edit_name.setText(null);
+                txt_edit_email.setText(null);
+                txt_edit_username.setText(null);
+                lbl_edit_type.setText(null);
+            } catch (Exception e1) {
+            }
+        } else if (type.equalsIgnoreCase("Food Processing Manager")) {
+            Manager mnr = sou.getManagerByName(name);
+            String password = mnr.getPassword();
+            sou.removeManager(mnr);
 
-                Manager mn = new Manager(name, username, email, password, type);
-                sou.addManager(mn);
+            Manager mn = new Manager(name, username, email, password, type);
+            sou.addManager(mn);
 
-                try {
-                    sou.serialize();
-                    JOptionPane.showMessageDialog(rootPane, "Successfully Saved");
+            try {
+                sou.serialize();
+                JOptionPane.showMessageDialog(rootPane, "Successfully Saved");
 
-                    sou.deserialize();
-                    userTableLoad(sou, jTable1, jScrollPane1);
-                    userTableLoad(sou, jTable2, jScrollPane2);
-                    userTableLoad(sou, jTable3, jScrollPane3);
+                sou.deserialize();
+                userTableLoad(sou, table_edit_sengrp, scollpane_edit_sengrp);
+                userTableLoad(sou, deleteSensorTable, deleteSensorScrollpane);
+                userTableLoad(sou, addSensorTable, addSensorScrollPane);
 
-                    lbl_edit_name.setText(null);
-                    txt_edit_email.setText(null);
-                    txt_edit_username.setText(null);
-                    lbl_edit_type.setText(null);
-                } catch (Exception e1) {
-                }
+                lbl_edit_name.setText(null);
+                txt_edit_email.setText(null);
+                txt_edit_username.setText(null);
+                lbl_edit_type.setText(null);
+            } catch (Exception e1) {
             }
         }
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        String name = lbl_delete_name.getText().toString();
-        String type = lbl_delete_type.getText().toString();
+        int id = Integer.parseInt(lbl_delete_sensor_id.getText());
+        String type = lbl_delete_sensor_type.getText().toString();
 
         int x = JOptionPane.showConfirmDialog(rootPane, "Are you sure about this?");
         System.out.println(x);
-        
+
         if (x == 0) {
-            if (type.equalsIgnoreCase("Farmer")) {
-                Farmer fmr = sou.getFarmerByName(name);
-                sou.removeFarmer(fmr);
+            if (type.equalsIgnoreCase("Air Temperature Sensor")) {
+                AirTemperatureSensor ats = sos.getAirTemperatureSensorById(id);
+                sos.removeAirTemperatureSensor(ats);
 
                 try {
-                    sou.serialize();
+                    sos.serialize();
                     JOptionPane.showMessageDialog(rootPane, "Successfully Delete");
 
-                    sou.deserialize();
-                    userTableLoad(sou, jTable1, jScrollPane1);
-                    userTableLoad(sou, jTable2, jScrollPane2);
-                    userTableLoad(sou, jTable3, jScrollPane3);
+                    sos.deserialize();
+                    sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                    sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                    sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+
+                    lbl_delete_sensor_id.setText(null);
+                    lbl_delete_sensor_type.setText(null);
                 } catch (Exception e1) {
                 }
-            } else if (type.equalsIgnoreCase("Food Processing Manager")) {
-                Manager mnr = sou.getManagerByName(name);
-                sou.removeManager(mnr);
+            } else if (type.equalsIgnoreCase("Crop Moisture Sensor")) {
+                CropMoistureSensor cms = sos.getCropMoistureSensorById(id);
+                sos.removeCropMoistureSensor(cms);
 
                 try {
-                    sou.serialize();
+                    sos.serialize();
                     JOptionPane.showMessageDialog(rootPane, "Successfully Deleted");
 
-                    sou.deserialize();
-                    userTableLoad(sou, jTable1, jScrollPane1);
-                    userTableLoad(sou, jTable2, jScrollPane2);
-                    userTableLoad(sou, jTable3, jScrollPane3);
+                    sos.deserialize();
+                    sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                    sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                    sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+
+                    lbl_delete_sensor_id.setText(null);
+                    lbl_delete_sensor_type.setText(null);
                 } catch (Exception e1) {
                 }
-            }else{
-                JOptionPane.showMessageDialog(rootPane, "bla bla bla");
+            } else if (type.equalsIgnoreCase("Light Sensor")) {
+                LightSensor ls = sos.getLightSensorById(id);
+                sos.removeLightSensor(ls);
+
+                try {
+                    sos.serialize();
+                    JOptionPane.showMessageDialog(rootPane, "Successfully Deleted");
+
+                    sos.deserialize();
+                    sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                    sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                    sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+
+                    lbl_delete_sensor_id.setText(null);
+                    lbl_delete_sensor_type.setText(null);
+                } catch (Exception e1) {
+                }
+            } else if (type.equalsIgnoreCase("Soil Acidity Sensor")) {
+                SoilAciditySensor sas = sos.getSoilAciditySensorById(id);
+                sos.removeSoilAciditySensor(sas);
+
+                try {
+                    sos.serialize();
+                    JOptionPane.showMessageDialog(rootPane, "Successfully Deleted");
+
+                    sos.deserialize();
+                    sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                    sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                    sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+
+                    lbl_delete_sensor_id.setText(null);
+                    lbl_delete_sensor_type.setText(null);
+                } catch (Exception e1) {
+                }
+            } else if (type.equalsIgnoreCase("Soil Temperature Sensor")) {
+                SoilTemperatureSensor sts = sos.getSoilTemperatureSensorById(id);
+                sos.removeSoilTemperatureSensor(sts);
+
+                try {
+                    sos.serialize();
+                    JOptionPane.showMessageDialog(rootPane, "Successfully Deleted");
+
+                    sos.deserialize();
+                    sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                    sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                    sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+
+                    lbl_delete_sensor_id.setText(null);
+                    lbl_delete_sensor_type.setText(null);
+                } catch (Exception e1) {
+                }
+            } else if (type.equalsIgnoreCase("Rainfall Sensor")) {
+                RainfallSensor rfs = sos.getRainfallSensorById(id);
+                sos.removeRainfallSensor(rfs);
+
+                try {
+                    sos.serialize();
+                    JOptionPane.showMessageDialog(rootPane, "Successfully Deleted");
+
+                    sos.deserialize();
+                    sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                    sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                    sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+
+                    lbl_delete_sensor_id.setText(null);
+                    lbl_delete_sensor_type.setText(null);
+                } catch (Exception e1) {
+                }
+            } else if (type.equalsIgnoreCase("Wind Sensor")) {
+                WindSensor ws = sos.getWindSensorById(id);
+                sos.removeWindSensor(ws);
+
+                try {
+                    sos.serialize();
+                    JOptionPane.showMessageDialog(rootPane, "Successfully Deleted");
+
+                    sos.deserialize();
+                    sensorTableLoad(sos, table_edit_sengrp, scollpane_edit_sengrp);
+                    sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
+                    sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+
+                    lbl_delete_sensor_id.setText(null);
+                    lbl_delete_sensor_type.setText(null);
+                } catch (Exception e1) {
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Abort Operation");
             }
         }
     }//GEN-LAST:event_jButton9ActionPerformed
 
-    private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
-        int r = jTable2.getSelectedRow();
-        lbl_delete_name.setText(jTable2.getValueAt(r, 1).toString());
-        lbl_delete_type.setText(jTable2.getValueAt(r, 4).toString());
+    private void deleteSensorTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteSensorTableMouseClicked
+        int r = deleteSensorTable.getSelectedRow();
+        lbl_delete_sensor_id.setText(deleteSensorTable.getValueAt(r, 0).toString());
+        lbl_delete_sensor_type.setText(deleteSensorTable.getValueAt(r, 4).toString());
 
-    }//GEN-LAST:event_jTable2MouseClicked
+    }//GEN-LAST:event_deleteSensorTableMouseClicked
 
     private void txt_add_sense_purposeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_add_sense_purposeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_add_sense_purposeActionPerformed
 
-    private void btn_adduser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_adduser1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_adduser1ActionPerformed
+    private void btn_add_sengrpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_add_sengrpActionPerformed
+        int id = Integer.parseInt(txt_add_sengrp_id.getText());
+        String name = txt_add_sengrp_name.getText().toString();
+        String category = txt_add_sengrp_category.getText().toString();
+        int count = Integer.parseInt(cmb_add_sengrp_count.getSelectedItem().toString());
+        //SetOfSensors.addAll(newSos);
 
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton11ActionPerformed
+        if (txt_add_sengrp_id.getText().isEmpty() | txt_add_sengrp_name.getText().isEmpty() | txt_add_sengrp_category.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Please fill up the fields.");
+        } else {
+            SensorGroup sgp = new SensorGroup(id, name, category, count);
+            //sos.addAirTemperatureSensor(ats);
+
+            try {
+                sos.serialize();
+                JOptionPane.showMessageDialog(rootPane, "Sensor successfully Added");
+
+                sos.deserialize();
+                sensorTableLoad(sos, add_sengrp_table, add_sengrp_scrollpane);
+                //sensorTableLoad(sos, deleteSensorTable, jScrollPane2);
+                //sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
+                txt_add_sengrp_id.setText(null);
+                txt_add_sengrp_name.setText(null);
+                txt_add_sengrp_category.setText(null);
+            } catch (Exception e1) {
+            }
+        }
+    }//GEN-LAST:event_btn_add_sengrpActionPerformed
+
+    private void btn_reset_sengrpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_reset_sengrpActionPerformed
+        txt_add_sengrp_id.setText(null);
+        txt_add_sengrp_name.setText(null);
+        txt_add_sengrp_category.setText(null);
+    }//GEN-LAST:event_btn_reset_sengrpActionPerformed
 
     private void jTable5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable5MouseClicked
         // TODO add your handling code here:
@@ -835,6 +1074,87 @@ public class SensorManagement extends javax.swing.JFrame {
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton12ActionPerformed
+
+    private void btn_check_sen_availabilityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_check_sen_availabilityActionPerformed
+        categorizeSos.removeAllElements();
+        cmb_add_sen_type.removeAllItems();
+
+        String type = cmb_chk_sen_type.getSelectedItem().toString();
+
+        if (type.equalsIgnoreCase("Air Temperature Sensor")) {
+            airts = sos.getAirTemperatureSensor();
+            for (Sensors sen : airts) {
+                cmb_add_sen_type.addItem("" + sen.getSensorID());
+            };
+        } else if (type.equalsIgnoreCase("Crop Moisture Sensor")) {
+            cropms = sos.getCropMoistureSensor();
+            for (Sensors sen : cropms) {
+                cmb_add_sen_type.addItem("" + sen.getSensorID());
+            };
+        } else if (type.equalsIgnoreCase("Light Sensor")) {
+            lights = sos.getLightSensor();
+            for (Sensors sen : lights) {
+                cmb_add_sen_type.addItem("" + sen.getSensorID());
+            };
+        } else if (type.equalsIgnoreCase("Soil Temporature Sensor")) {
+            soilts = sos.getSoilTemperatureSensor();
+            for (Sensors sen : soilts) {
+                cmb_add_sen_type.addItem("" + sen.getSensorID());
+            };
+        } else if (type.equalsIgnoreCase("Soil Acidity Sensor")) {
+            soilas = sos.getSoilAciditySensor();
+            for (Sensors sen : soilas) {
+                cmb_add_sen_type.addItem("" + sen.getSensorID());
+            };
+        } else if (type.equalsIgnoreCase("Rainfall Sensor")) {
+            rainfs = sos.getRainfallSensor();
+            for (Sensors sen : rainfs) {
+                cmb_add_sen_type.addItem("" + sen.getSensorID());
+            };
+        } else if (type.equalsIgnoreCase("Wind Sensor")) {
+            winds = sos.getWindSensor();
+            for (Sensors sen : winds) {
+                cmb_add_sen_type.addItem("" + sen.getSensorID());
+            };
+        }
+    }//GEN-LAST:event_btn_check_sen_availabilityActionPerformed
+
+    private void btn_add_senActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_add_senActionPerformed
+        int id = Integer.parseInt(cmb_add_sen_type.getSelectedItem().toString());
+        int interval = Integer.parseInt(txt_add_sen_interval.getText().toString());
+        String type = cmb_chk_sen_type.getSelectedItem().toString();
+
+        if (type.equalsIgnoreCase("Air Temperature Sensor")) {
+            AirTemperatureSensor ats1 = sos.getAirTemperatureSensorById(id);
+            newSos.addAirTemperatureSensor(ats1);
+            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+        } else if (type.equalsIgnoreCase("Crop Moisture Sensor")) {
+            CropMoistureSensor cms1 = sos.getCropMoistureSensorById(id);
+            newSos.addCropMoistureSensor(cms1);
+            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+        } else if (type.equalsIgnoreCase("Light Sensor")) {
+            LightSensor ls1 = sos.getLightSensorById(id);
+            newSos.addLightSensor(ls1);
+            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+        } else if (type.equalsIgnoreCase("Soil Temporature Sensor")) {
+            SoilTemperatureSensor sts1 = sos.getSoilTemperatureSensorById(id);
+            newSos.addSoilTemperatureSensor(sts1);
+            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);     
+        } else if (type.equalsIgnoreCase("Soil Acidity Sensor")) {
+            SoilAciditySensor sas1 = sos.getSoilAciditySensorById(id);
+            newSos.addSoilAciditySensor(sas1);
+            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+        } else if (type.equalsIgnoreCase("Rainfall Sensor")) {
+            RainfallSensor rfs1 = sos.getRainfallSensorById(id);
+            newSos.addRainfallSensor(rfs1);
+            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+        } else if (type.equalsIgnoreCase("Wind Sensor")) {
+            WindSensor ws1 = sos.getWindSensorById(id);
+            newSos.addWindSensor(ws1);
+            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+        }
+        txt_add_sen_interval.setText(null);
+    }//GEN-LAST:event_btn_add_senActionPerformed
 
     /**
      * @param args the command line arguments
@@ -850,16 +1170,24 @@ public class SensorManagement extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SensorManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SensorManagement.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SensorManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SensorManagement.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SensorManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SensorManagement.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SensorManagement.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(SensorManagement.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -885,27 +1213,33 @@ public class SensorManagement extends javax.swing.JFrame {
     private javax.swing.JPanel DeleteSensorGroup;
     private javax.swing.JPanel EditSensorGroup;
     private javax.swing.JPanel SensorMangement;
+    private javax.swing.JScrollPane addSensorScrollPane;
+    private javax.swing.JTable addSensorTable;
+    private javax.swing.JScrollPane add_sengrp_scrollpane;
+    private javax.swing.JTable add_sengrp_table;
     private javax.swing.JLabel background;
     private javax.swing.JLabel background1;
     private javax.swing.JLabel background2;
     private javax.swing.JLabel background3;
     private javax.swing.JLabel background4;
-    private javax.swing.JButton btn_adduser;
-    private javax.swing.JButton btn_adduser1;
+    private javax.swing.JButton btn_addSensor;
+    private javax.swing.JButton btn_add_sen;
+    private javax.swing.JButton btn_add_sengrp;
+    private javax.swing.JButton btn_check_sen_availability;
+    private javax.swing.JButton btn_resetSensor;
+    private javax.swing.JButton btn_reset_sengrp;
+    private javax.swing.JComboBox<String> cmb_add_sen_type;
+    private javax.swing.JComboBox<String> cmb_add_sengrp_count;
     private javax.swing.JComboBox<String> cmb_add_sense_type;
-    private javax.swing.JComboBox<String> cmb_add_type1;
-    private javax.swing.JComboBox<String> cmb_add_type2;
-    private javax.swing.JComboBox<String> cmb_add_type3;
     private javax.swing.JComboBox<String> cmb_add_type4;
     private javax.swing.JComboBox<String> cmb_add_type5;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton11;
+    private javax.swing.JComboBox<String> cmb_chk_sen_type;
+    private javax.swing.JScrollPane deleteSensorScrollpane;
+    private javax.swing.JTable deleteSensorTable;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel10;
@@ -919,7 +1253,6 @@ public class SensorManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
     private javax.swing.JLabel jLabel26;
@@ -927,6 +1260,8 @@ public class SensorManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel33;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
@@ -934,29 +1269,24 @@ public class SensorManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JTable jTable4;
     private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JLabel lbl_delete_name;
     private javax.swing.JLabel lbl_delete_name1;
-    private javax.swing.JLabel lbl_delete_type;
+    private javax.swing.JLabel lbl_delete_sensor_id;
+    private javax.swing.JLabel lbl_delete_sensor_type;
     private javax.swing.JLabel lbl_delete_type1;
-    private javax.swing.JTextField txt_add_email1;
-    private javax.swing.JTextField txt_add_name2;
+    private javax.swing.JScrollPane scollpane_edit_sengrp;
+    private javax.swing.JTable table_edit_sengrp;
+    private javax.swing.JTextField txt_add_sen_interval;
+    private javax.swing.JTextField txt_add_sengrp_category;
+    private javax.swing.JTextField txt_add_sengrp_id;
+    private javax.swing.JTextField txt_add_sengrp_name;
     private javax.swing.JTextField txt_add_sense_brand;
     private javax.swing.JTextField txt_add_sense_id;
     private javax.swing.JTextField txt_add_sense_model;
     private javax.swing.JTextField txt_add_sense_purpose;
-    private javax.swing.JTextField txt_add_username3;
     // End of variables declaration//GEN-END:variables
 
 }

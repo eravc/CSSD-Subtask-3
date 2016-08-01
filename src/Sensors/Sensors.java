@@ -12,7 +12,7 @@ import java.util.Date;
  *
  * @author Aklive
  */
-class Sensors implements Serializable {
+public class Sensors implements Serializable {
     private int sensorID;
     private String purpose;
     private String model;

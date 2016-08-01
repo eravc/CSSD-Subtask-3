@@ -18,8 +18,8 @@ public class WindSensor extends Sensors{
     private double windSpeed;
     private Time time;
 
-    public WindSensor(String name, String purpose, int interval, Date date) {
-        super(name, purpose, interval, date);
+    public WindSensor(int id, String purpose, String model, String brand) {
+        super(id, purpose, model, brand);
     }
 
     /**

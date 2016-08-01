@@ -14,8 +14,8 @@ import java.util.Date;
 public class AirTemperatureSensor extends Sensors {
     private double airTemp;
 
-    public AirTemperatureSensor(String name, String purpose, int interval, Date date) {
-        super(name, purpose, interval, date);
+    public AirTemperatureSensor(int id, String purpose, String model, String brand) {
+        super(id, purpose, model, brand);
     }
 
     /**

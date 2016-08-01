@@ -16,15 +16,18 @@ public class SensorGroup implements Serializable {
 
     private int SensorGroupId;
     private String groupName;
-    private SetOfSensors set;
+    private String category;
+    private int count;
+    private SetOfSensors set = null;
 
-    public SensorGroup(int groupId, String groupName, SetOfSensors set) {
+    public SensorGroup(int groupId, String groupName,String category, int count) {
         this.SensorGroupId = groupId;
         this.groupName = groupName;
-        this.set = set;
+        this.category = category;
+        this.count = count;
     }
 
-    public void addSensorToGroup(Sensors sen) {
+    public void addSensorsToGroup(Sensors sen) {
         getSet().add(sen);
     }
 

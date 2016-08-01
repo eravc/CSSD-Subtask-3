@@ -14,7 +14,7 @@ import serialization.Serialization;
  *
  * @author Eranga
  */
-public class SensorGropControl extends Vector<SensorGroup> implements Serializable{
+public class SensorGroupControl extends Vector<SensorGroup> implements Serializable{
     
     private static Vector<SensorGroup> SensorGropControl = new Vector<SensorGroup>();
     
@@ -26,7 +26,7 @@ public class SensorGropControl extends Vector<SensorGroup> implements Serializab
         SensorGropControl = (Vector<SensorGroup>) Serialization.deSerialize("SensorGropControl.txt");
     }
     
-    public SensorGropControl(){
+    public SensorGroupControl(){
         super();
     }
     

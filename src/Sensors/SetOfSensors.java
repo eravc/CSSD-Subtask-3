@@ -5,6 +5,7 @@
  */
 package Sensors;
 
+import Users.Farmer;
 import serialization.Serialization;
 import java.io.Serializable;
 import java.util.Vector;
@@ -16,15 +17,15 @@ import java.io.IOException;
  */
 public class SetOfSensors extends Vector<Sensors> implements Serializable  {
     
-    private static Vector<AirTemperatureSensor> setOfAirTemperatureSensor = new Vector<AirTemperatureSensor>();
-    private static Vector<CropMoistureSensor> setOfCropMoistureSensor = new Vector<CropMoistureSensor>();
-    private static Vector<LightSensor> setOfLightSensor = new Vector<LightSensor>();
-    private static Vector<SoilAciditySensor> setOfSoilAciditySensor = new Vector<SoilAciditySensor>();
-    private static Vector<SoilTemperatureSensor> setOfSoilTemperatureSensor = new Vector<SoilTemperatureSensor>();
-    private static Vector<RainfallSensor> setOfRainfallSensor = new Vector<RainfallSensor>();
-    private static Vector<WindSensor> setOfWindSensor = new Vector<WindSensor>();
+    private Vector<AirTemperatureSensor> setOfAirTemperatureSensor = new Vector<AirTemperatureSensor>();
+    private Vector<CropMoistureSensor> setOfCropMoistureSensor = new Vector<CropMoistureSensor>();
+    private Vector<LightSensor> setOfLightSensor = new Vector<LightSensor>();
+    private Vector<SoilAciditySensor> setOfSoilAciditySensor = new Vector<SoilAciditySensor>();
+    private Vector<SoilTemperatureSensor> setOfSoilTemperatureSensor = new Vector<SoilTemperatureSensor>();
+    private Vector<RainfallSensor> setOfRainfallSensor = new Vector<RainfallSensor>();
+    private Vector<WindSensor> setOfWindSensor = new Vector<WindSensor>();
     
-    public static void serialize() throws IOException {
+    public void serialize() throws IOException {
         Serialization.serialize(setOfAirTemperatureSensor, "AirTempSensors.txt");
         Serialization.serialize(setOfCropMoistureSensor, "CropMoisSensors.txt");
         Serialization.serialize(setOfLightSensor, "LightSensors.txt");
@@ -34,7 +35,7 @@ public class SetOfSensors extends Vector<Sensors> implements Serializable  {
         Serialization.serialize(setOfWindSensor, "WindSensor.txt");
     }
     
-    public static void deserialize() throws IOException, ClassNotFoundException {
+    public void deserialize() throws IOException, ClassNotFoundException {
         setOfAirTemperatureSensor = (Vector<AirTemperatureSensor>) Serialization.deSerialize("AirTempSensors.txt");
         setOfCropMoistureSensor = (Vector<CropMoistureSensor>) Serialization.deSerialize("CropMoisSensors.txt");
         setOfLightSensor = (Vector<LightSensor>) Serialization.deSerialize("LightSensors.txt");
@@ -44,59 +45,158 @@ public class SetOfSensors extends Vector<Sensors> implements Serializable  {
         setOfWindSensor = (Vector<WindSensor>) Serialization.deSerialize("WindSensor.txt");    
     }
     
-    public static void addAirTemperatureSensor(AirTemperatureSensor ats) {
+    public void addAirTemperatureSensor(AirTemperatureSensor ats) {
         setOfAirTemperatureSensor.add(ats);
     }
 
-    public static void addCropMoistureSensor(CropMoistureSensor cms) {
+    public void addCropMoistureSensor(CropMoistureSensor cms) {
         setOfCropMoistureSensor.add(cms);
     }
     
-    public static void addLightSensor(LightSensor ls) {
+    public void addLightSensor(LightSensor ls) {
         setOfLightSensor.add(ls);
     }
 
-    public static void addSoilAciditySensor(SoilAciditySensor sas) {
+    public void addSoilAciditySensor(SoilAciditySensor sas) {
         setOfSoilAciditySensor.add(sas);
     }
     
-    public static void addSoilTemperatureSensor(SoilTemperatureSensor sts) {
+    public void addSoilTemperatureSensor(SoilTemperatureSensor sts) {
         setOfSoilTemperatureSensor.add(sts);
     }
 
-    public static void addRainfallSensor(RainfallSensor rfs) {
+    public void addRainfallSensor(RainfallSensor rfs) {
         setOfRainfallSensor.add(rfs);
     }
     
-    public static void addWindSensor(WindSensor ws) {
+    public void addWindSensor(WindSensor ws) {
         setOfWindSensor.add(ws);
     }
     //--------------------------------------------------------
-    public static Vector getAirTemperatureSensor(){
+    public Vector getAirTemperatureSensor(){
         return setOfAirTemperatureSensor;
     }
     
-    public static Vector getCropMoistureSensor(){
+    public  Vector getCropMoistureSensor(){
         return setOfCropMoistureSensor;
     }
     
-    public static Vector getLightSensor(){
+    public  Vector getLightSensor(){
         return setOfLightSensor;
     }
     
-    public static Vector getSoilAciditySensor(){
+    public  Vector getSoilAciditySensor(){
         return setOfSoilAciditySensor;
     }
     
-    public static Vector getSoilTemperatureSensor(){
+    public  Vector getSoilTemperatureSensor(){
         return setOfSoilTemperatureSensor;
     }
     
-    public static Vector getRainfallSensor(){
+    public  Vector getRainfallSensor(){
         return setOfRainfallSensor;
     }
     
-    public static Vector getWindSensor(){
+    public  Vector getWindSensor(){
         return setOfWindSensor;
+    }
+    
+    //-----------------------------------------------------------
+    
+    public AirTemperatureSensor getAirTemperatureSensorById(int id){
+        AirTemperatureSensor ats = null;
+        
+        for(AirTemperatureSensor item: setOfAirTemperatureSensor){
+            if(item.getSensorID() == id){
+              ats = item; 
+            }
+        }
+        return ats;
+    }
+    public CropMoistureSensor getCropMoistureSensorById(int id){
+        CropMoistureSensor cms = null;
+        
+        for(CropMoistureSensor item: setOfCropMoistureSensor){
+            if(item.getSensorID() == id){
+              cms = item; 
+            }
+        }
+        return cms;
+    }
+    public LightSensor getLightSensorById(int id){
+        LightSensor ls = null;
+        
+        for(LightSensor item: setOfLightSensor){
+            if(item.getSensorID() == id){
+              ls = item; 
+            }
+        }
+        return ls;
+    }
+    public SoilAciditySensor getSoilAciditySensorById(int id){
+        SoilAciditySensor sas = null;
+        
+        for(SoilAciditySensor item: setOfSoilAciditySensor){
+            if(item.getSensorID() == id){
+              sas = item; 
+            }
+        }
+        return sas;
+    }
+    public SoilTemperatureSensor getSoilTemperatureSensorById(int id){
+        SoilTemperatureSensor sts = null;
+        
+        for(SoilTemperatureSensor item: setOfSoilTemperatureSensor){
+            if(item.getSensorID() == id){
+              sts = item; 
+            }
+        }
+        return sts;
+    }
+    public RainfallSensor getRainfallSensorById(int id){
+        RainfallSensor rfs = null;
+        
+        for(RainfallSensor item: setOfRainfallSensor){
+            if(item.getSensorID() == id){
+              rfs = item; 
+            }
+        }
+        return rfs;
+    }
+    public WindSensor getWindSensorById(int id){
+        WindSensor ws = null;
+        
+        for(WindSensor item: setOfWindSensor){
+            if(item.getSensorID() == id){
+              ws = item; 
+            }
+        }
+        return ws;
+    }
+    
+    //-------------------------------------------------------------------------
+    
+    public  void removeAirTemperatureSensor(Sensors sen){
+        setOfAirTemperatureSensor.removeElement(sen);
+    }
+    
+    public  void removeCropMoistureSensor(Sensors sen){
+        setOfCropMoistureSensor.removeElement(sen);
+    }
+    
+    public  void removeLightSensor(Sensors sen){
+        setOfLightSensor.removeElement(sen);
+    }
+    public  void removeRainfallSensor(Sensors sen){
+        setOfRainfallSensor.removeElement(sen);
+    }
+    public  void removeSoilAciditySensor(Sensors sen){
+        setOfSoilAciditySensor.removeElement(sen);
+    }
+    public  void removeSoilTemperatureSensor(Sensors sen){
+        setOfSoilTemperatureSensor.removeElement(sen);
+    }
+    public  void removeWindSensor(Sensors sen){
+        setOfWindSensor.removeElement(sen);
     }
 }

@@ -16,8 +16,8 @@ public class CropMoistureSensor extends Sensors{
     private double moistureLevel;
     private Time time;
 
-    public CropMoistureSensor(String name, String purpose, int interval, Date date) {
-        super(name, purpose, interval, date);
+    public CropMoistureSensor(int id, String purpose, String model, String brand) {
+        super(id, purpose, model, brand);
     }
 
     /**

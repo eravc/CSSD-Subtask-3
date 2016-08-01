@@ -16,8 +16,8 @@ public class LightSensor extends Sensors{
     private double lightIntencity;
     private Time time;
 
-    public LightSensor(String name, String purpose, int interval, Date date) {
-        super(name, purpose, interval, date);
+    public LightSensor(int id, String purpose, String model, String brand) {
+        super(id, purpose, model, brand);;
     }
 
     /**
