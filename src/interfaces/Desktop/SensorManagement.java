@@ -19,8 +19,11 @@ import Sensors.WindSensor;
 import javax.swing.JOptionPane;
 import Users.Farmer;
 import Users.Manager;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -46,11 +49,9 @@ public class SensorManagement extends javax.swing.JFrame {
 
     private ArrayList<Integer> ids = new ArrayList<Integer>(10);
     private ArrayList<String> types = new ArrayList<String>(10);
-    
+
     //ids = 
-        //types 
-
-
+    //types 
     /**
      * Creates new form Login
      */
@@ -62,8 +63,12 @@ public class SensorManagement extends javax.swing.JFrame {
         }
 
         initComponents();
+        
+        System.out.println(sgc);
 
+        sensorGroupTableLoad(sgc, sengrp_delete_table, sengrp_delete_scrollpane);
         sensorGroupTableLoad(sgc, edit_sengrp_table, scollpane_edit_sengrp);
+        sensorGroupTableLoad(sgc, sengrp_delete_table, sengrp_delete_scrollpane);
         sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
         sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
     }
@@ -267,7 +272,6 @@ public class SensorManagement extends javax.swing.JFrame {
         cmb_add_sengrp_count = new javax.swing.JComboBox<>();
         jLabel26 = new javax.swing.JLabel();
         jLabel33 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
         background3 = new javax.swing.JLabel();
         EditSensorGroup = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
@@ -286,15 +290,17 @@ public class SensorManagement extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         background1 = new javax.swing.JLabel();
         DeleteSensorGroup = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTable5 = new javax.swing.JTable();
+        sengrp_delete_scrollpane = new javax.swing.JScrollPane();
+        sengrp_delete_table = new javax.swing.JTable();
         jButton12 = new javax.swing.JButton();
         jLabel24 = new javax.swing.JLabel();
         jLabel25 = new javax.swing.JLabel();
-        lbl_delete_name1 = new javax.swing.JLabel();
-        lbl_delete_type1 = new javax.swing.JLabel();
+        lbl_delete_sengrp_type = new javax.swing.JLabel();
+        lbl_delete_sengrp_id = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel30 = new javax.swing.JLabel();
+        lbl_delete_sensor_type1 = new javax.swing.JLabel();
+        lbl_delete_sensor_id1 = new javax.swing.JLabel();
         background4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -465,7 +471,7 @@ public class SensorManagement extends javax.swing.JFrame {
                 btn_reset_sengrpActionPerformed(evt);
             }
         });
-        AddSensorGroup.add(btn_reset_sengrp, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 200, 120, 30));
+        AddSensorGroup.add(btn_reset_sengrp, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, 120, 30));
 
         add_sengrp_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -560,14 +566,6 @@ public class SensorManagement extends javax.swing.JFrame {
         jLabel33.setText("No. Of Sensors");
         AddSensorGroup.add(jLabel33, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 160, 120, 30));
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        AddSensorGroup.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 460, -1, -1));
-
         background3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaces/Desktop/Images/grass_PNG401.png"))); // NOI18N
         AddSensorGroup.add(background3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1000, 600));
 
@@ -659,7 +657,7 @@ public class SensorManagement extends javax.swing.JFrame {
         DeleteSensorGroup.setBackground(new java.awt.Color(255, 255, 255));
         DeleteSensorGroup.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTable5.setModel(new javax.swing.table.DefaultTableModel(
+        sengrp_delete_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -670,14 +668,14 @@ public class SensorManagement extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable5.addMouseListener(new java.awt.event.MouseAdapter() {
+        sengrp_delete_table.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTable5MouseClicked(evt);
+                sengrp_delete_tableMouseClicked(evt);
             }
         });
-        jScrollPane5.setViewportView(jTable5);
+        sengrp_delete_scrollpane.setViewportView(sengrp_delete_table);
 
-        DeleteSensorGroup.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 740, 250));
+        DeleteSensorGroup.add(sengrp_delete_scrollpane, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 740, 250));
 
         jButton12.setText("Delete");
         jButton12.addActionListener(new java.awt.event.ActionListener() {
@@ -685,7 +683,7 @@ public class SensorManagement extends javax.swing.JFrame {
                 jButton12ActionPerformed(evt);
             }
         });
-        DeleteSensorGroup.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(823, 340, 70, 30));
+        DeleteSensorGroup.add(jButton12, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 340, 70, 30));
 
         jLabel24.setFont(new java.awt.Font("Monotype Corsiva", 1, 24)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(102, 102, 102));
@@ -697,15 +695,17 @@ public class SensorManagement extends javax.swing.JFrame {
         jLabel25.setForeground(new java.awt.Color(102, 102, 102));
         jLabel25.setText("Search");
         DeleteSensorGroup.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 30, 60, 30));
-        DeleteSensorGroup.add(lbl_delete_name1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 330, 120, 30));
-        DeleteSensorGroup.add(lbl_delete_type1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 140, 30));
+        DeleteSensorGroup.add(lbl_delete_sengrp_type, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 330, 120, 30));
+        DeleteSensorGroup.add(lbl_delete_sengrp_id, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 140, 30));
         DeleteSensorGroup.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 30, 180, 30));
 
         jLabel30.setBackground(new java.awt.Color(102, 102, 102));
         jLabel30.setFont(new java.awt.Font("Monotype Corsiva", 1, 18)); // NOI18N
         jLabel30.setForeground(new java.awt.Color(102, 102, 102));
         jLabel30.setText("Selected");
-        DeleteSensorGroup.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 330, 120, 30));
+        DeleteSensorGroup.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 330, 120, 30));
+        DeleteSensorGroup.add(lbl_delete_sensor_type1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 330, 140, 30));
+        DeleteSensorGroup.add(lbl_delete_sensor_id1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 330, 140, 30));
 
         background4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/interfaces/Desktop/Images/grass_PNG401.png"))); // NOI18N
         DeleteSensorGroup.add(background4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 990, 570));
@@ -1079,32 +1079,37 @@ public class SensorManagement extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_add_sense_purposeActionPerformed
 
     private void btn_add_sengrpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_add_sengrpActionPerformed
-        int id = Integer.parseInt(txt_add_sengrp_id.getText());
-        String name = txt_add_sengrp_name.getText().toString();
-        String category = txt_add_sengrp_category.getText().toString();
         int count = Integer.parseInt(cmb_add_sengrp_count.getSelectedItem().toString());
 
         if (txt_add_sengrp_id.getText().isEmpty() | txt_add_sengrp_name.getText().isEmpty() | txt_add_sengrp_category.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Please fill up the fields.");
         } else {
+            int id = Integer.parseInt(txt_add_sengrp_id.getText());
+            String name = txt_add_sengrp_name.getText().toString();
+            String category = txt_add_sengrp_category.getText().toString();
+            
+            if (count != ids.size()) {
+                JOptionPane.showMessageDialog(rootPane, "Total number os Sensors not set.");
+            }
+
             SensorGroup sgp = new SensorGroup(id, name, category, count, newSos);
             sgc.addSensorGroup(sgp);
 
-            for (int i = 0; i<types.length; i++) {
-                if (types[i].equalsIgnoreCase("Air Temperature Sensor")) {
-                    sos.getAirTemperatureSensorById(ids[i]).setAvailability(false);
-                } else if (types[i].equalsIgnoreCase("Crop Moisture Sensor")) {
-                    sos.getCropMoistureSensorById(ids[i]).setAvailability(false);
-                } else if (types[i].equalsIgnoreCase("Light Sensor")) {
-                    sos.getLightSensorById(ids[i]).setAvailability(false);
-                } else if (types[i].equalsIgnoreCase("Soil Temporature Sensor")) {
-                    sos.getSoilTemperatureSensorById(ids[i]).setAvailability(false);
-                } else if (types[i].equalsIgnoreCase("Soil Acidity Sensor")) {
-                    sos.getSoilAciditySensorById(ids[i]).setAvailability(false);
-                } else if (types[i].equalsIgnoreCase("Rainfall Sensor")) {
-                    sos.getRainfallSensorById(ids[i]).setAvailability(false);
-                } else if (types[i].equalsIgnoreCase("Wind Sensor")) {
-                    sos.getWindSensorById(ids[i]).setAvailability(false);
+            for (int i = 0; i < types.size(); i++) {
+                if (types.get(i).equalsIgnoreCase("Air Temperature Sensor")) {
+                    sos.getAirTemperatureSensorById(ids.get(i)).setAvailability(false);
+                } else if (types.get(i).equalsIgnoreCase("Crop Moisture Sensor")) {
+                    sos.getCropMoistureSensorById(ids.get(i)).setAvailability(false);
+                } else if (types.get(i).equalsIgnoreCase("Light Sensor")) {
+                    sos.getLightSensorById(ids.get(i)).setAvailability(false);
+                } else if (types.get(i).equalsIgnoreCase("Soil Temporature Sensor")) {
+                    sos.getSoilTemperatureSensorById(ids.get(i)).setAvailability(false);
+                } else if (types.get(i).equalsIgnoreCase("Soil Acidity Sensor")) {
+                    sos.getSoilAciditySensorById(ids.get(i)).setAvailability(false);
+                } else if (types.get(i).equalsIgnoreCase("Rainfall Sensor")) {
+                    sos.getRainfallSensorById(ids.get(i)).setAvailability(false);
+                } else if (types.get(i).equalsIgnoreCase("Wind Sensor")) {
+                    sos.getWindSensorById(ids.get(i)).setAvailability(false);
                 }
             }
 
@@ -1116,6 +1121,7 @@ public class SensorManagement extends javax.swing.JFrame {
                 sgc.deserialize();
                 sos.deserialize();
                 sensorGroupTableLoad(sgc, add_sengrp_table, add_sengrp_scrollpane);
+                sensorGroupTableLoad(sgc, edit_sengrp_table, scollpane_edit_sengrp);
                 sensorTableLoad(sos, deleteSensorTable, deleteSensorScrollpane);
                 sensorTableLoad(sos, addSensorTable, addSensorScrollPane);
                 txt_add_sengrp_id.setText(null);
@@ -1123,8 +1129,11 @@ public class SensorManagement extends javax.swing.JFrame {
                 txt_add_sengrp_category.setText(null);
 
                 newSos.removeAllElements();
+                types.clear();
+                ids.clear();
             } catch (Exception e1) {
             }
+
         }
     }//GEN-LAST:event_btn_add_sengrpActionPerformed
 
@@ -1134,12 +1143,31 @@ public class SensorManagement extends javax.swing.JFrame {
         txt_add_sengrp_category.setText(null);
     }//GEN-LAST:event_btn_reset_sengrpActionPerformed
 
-    private void jTable5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable5MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTable5MouseClicked
+    private void sengrp_delete_tableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sengrp_delete_tableMouseClicked
+        int r = sengrp_delete_table.getSelectedRow();
+        lbl_delete_sengrp_id.setText(sengrp_delete_table.getValueAt(r, 0).toString());
+    }//GEN-LAST:event_sengrp_delete_tableMouseClicked
 
     private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
+        int id = Integer.parseInt(lbl_delete_sengrp_id.getText().toString());
+        
+        int x = JOptionPane.showConfirmDialog(rootPane, "Are you sure?");
+        if(x==0){
+            SensorGroup sg = sgc.findSensorGroupById(id);
+            sgc.remove(sg);
+            
+            try {
+                sgc.serialize();
+                JOptionPane.showMessageDialog(rootPane, "Successfully Deleted");
+                
+                sgc.deserialize();
+                sensorGroupTableLoad(sgc, sengrp_delete_table, sengrp_delete_scrollpane);
+                
+            } catch (Exception ex) { 
+            }
+            
+        }
+        
     }//GEN-LAST:event_jButton12ActionPerformed
 
     private void btn_check_sen_availabilityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_check_sen_availabilityActionPerformed
@@ -1205,50 +1233,45 @@ public class SensorManagement extends javax.swing.JFrame {
         int interval = Integer.parseInt(txt_add_sen_interval.getText().toString());
         String type = cmb_chk_sen_type.getSelectedItem().toString();
         int count = Integer.parseInt(cmb_add_sengrp_count.getSelectedItem().toString());
-        
-        if (type.equalsIgnoreCase("Air Temperature Sensor")) {
-            AirTemperatureSensor ats1 = sos.getAirTemperatureSensorById(id);
-            newSos.addAirTemperatureSensor(ats1);
-            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
-        } else if (type.equalsIgnoreCase("Crop Moisture Sensor")) {
-            CropMoistureSensor cms1 = sos.getCropMoistureSensorById(id);
-            newSos.addCropMoistureSensor(cms1);
-            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
-        } else if (type.equalsIgnoreCase("Light Sensor")) {
-            LightSensor ls1 = sos.getLightSensorById(id);
-            newSos.addLightSensor(ls1);
-            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
-        } else if (type.equalsIgnoreCase("Soil Temporature Sensor")) {
-            SoilTemperatureSensor sts1 = sos.getSoilTemperatureSensorById(id);
-            newSos.addSoilTemperatureSensor(sts1);
-            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
-        } else if (type.equalsIgnoreCase("Soil Acidity Sensor")) {
-            SoilAciditySensor sas1 = sos.getSoilAciditySensorById(id);
-            newSos.addSoilAciditySensor(sas1);
-            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
-        } else if (type.equalsIgnoreCase("Rainfall Sensor")) {
-            RainfallSensor rfs1 = sos.getRainfallSensorById(id);
-            newSos.addRainfallSensor(rfs1);
-            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
-        } else if (type.equalsIgnoreCase("Wind Sensor")) {
-            WindSensor ws1 = sos.getWindSensorById(id);
-            newSos.addWindSensor(ws1);
-            sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+        if (count > ids.size()) {
+            if (type.equalsIgnoreCase("Air Temperature Sensor")) {
+                AirTemperatureSensor ats1 = sos.getAirTemperatureSensorById(id);
+                newSos.addAirTemperatureSensor(ats1);
+                sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+            } else if (type.equalsIgnoreCase("Crop Moisture Sensor")) {
+                CropMoistureSensor cms1 = sos.getCropMoistureSensorById(id);
+                newSos.addCropMoistureSensor(cms1);
+                sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+            } else if (type.equalsIgnoreCase("Light Sensor")) {
+                LightSensor ls1 = sos.getLightSensorById(id);
+                newSos.addLightSensor(ls1);
+                sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+            } else if (type.equalsIgnoreCase("Soil Temporature Sensor")) {
+                SoilTemperatureSensor sts1 = sos.getSoilTemperatureSensorById(id);
+                newSos.addSoilTemperatureSensor(sts1);
+                sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+            } else if (type.equalsIgnoreCase("Soil Acidity Sensor")) {
+                SoilAciditySensor sas1 = sos.getSoilAciditySensorById(id);
+                newSos.addSoilAciditySensor(sas1);
+                sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+            } else if (type.equalsIgnoreCase("Rainfall Sensor")) {
+                RainfallSensor rfs1 = sos.getRainfallSensorById(id);
+                newSos.addRainfallSensor(rfs1);
+                sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+            } else if (type.equalsIgnoreCase("Wind Sensor")) {
+                WindSensor ws1 = sos.getWindSensorById(id);
+                newSos.addWindSensor(ws1);
+                sensorTableLoad(newSos, add_sengrp_table, add_sengrp_scrollpane);
+            }
+
+            ids.add(id);
+            types.add(type);
+
+            txt_add_sen_interval.setText(null);
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "Maximum number of sensors added");
         }
-
-        ids.add(id);
-        types.add(type);
-
-        txt_add_sen_interval.setText(null);
     }//GEN-LAST:event_btn_add_senActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        for(int i = 0; i<2; i++){
-            System.out.println(types.get(i));
-            System.out.println("-");
-            System.out.println(ids.get(i));
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1331,7 +1354,6 @@ public class SensorManagement extends javax.swing.JFrame {
     private javax.swing.JScrollPane deleteSensorScrollpane;
     private javax.swing.JTable deleteSensorTable;
     private javax.swing.JTable edit_sengrp_table;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1365,15 +1387,17 @@ public class SensorManagement extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable5;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JLabel lbl_delete_name1;
+    private javax.swing.JLabel lbl_delete_sengrp_id;
+    private javax.swing.JLabel lbl_delete_sengrp_type;
     private javax.swing.JLabel lbl_delete_sensor_id;
+    private javax.swing.JLabel lbl_delete_sensor_id1;
     private javax.swing.JLabel lbl_delete_sensor_type;
-    private javax.swing.JLabel lbl_delete_type1;
+    private javax.swing.JLabel lbl_delete_sensor_type1;
     private javax.swing.JScrollPane scollpane_edit_sengrp;
+    private javax.swing.JScrollPane sengrp_delete_scrollpane;
+    private javax.swing.JTable sengrp_delete_table;
     private javax.swing.JTextField txt_add_sen_interval;
     private javax.swing.JTextField txt_add_sengrp_category;
     private javax.swing.JTextField txt_add_sengrp_id;
