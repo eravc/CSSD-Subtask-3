@@ -14,8 +14,8 @@ import java.util.Date;
 public class SoilTemperatureSensor extends Sensors{
     private double soilTemp;
 
-    public SoilTemperatureSensor(int id, String purpose, String model, String brand) {
-        super(id, purpose, model, brand);
+    public SoilTemperatureSensor(int id, String purpose, String model, String brand, boolean availability) {
+        super(id, purpose, model, brand, availability);
     }
 
     /**

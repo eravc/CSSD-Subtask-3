@@ -17,13 +17,15 @@ public class Sensors implements Serializable {
     private String purpose;
     private String model;
     private String brand;
-    private int interval = 0; 
+    private int interval = 0;
+    private boolean availability;
 
-    public Sensors(int id, String purpose, String model, String brand) {
+    public Sensors(int id, String purpose, String model, String brand, boolean availability) {
         this.sensorID = id;
         this.purpose = purpose;
         this.model = model;
         this.brand = brand;
+        this.availability = availability;
     }
     /**
      * @return the sensorID
@@ -94,4 +96,18 @@ public class Sensors implements Serializable {
     public void setBrand(String brand) {
         this.brand = brand;
     }  
+
+    /**
+     * @return the availability
+     */
+    public boolean isAvailability() {
+        return availability;
+    }
+
+    /**
+     * @param availability the availability to set
+     */
+    public void setAvailability(boolean availability) {
+        this.availability = availability;
+    }
 }

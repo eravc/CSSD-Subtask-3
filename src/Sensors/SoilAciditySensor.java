@@ -14,8 +14,8 @@ import java.util.Date;
 public class SoilAciditySensor extends Sensors{
     private double acidityLevel;
 
-    public SoilAciditySensor(int id, String purpose, String model, String brand) {
-        super(id, purpose, model, brand);
+    public SoilAciditySensor(int id, String purpose, String model, String brand, boolean availability) {
+        super(id, purpose, model, brand, availability);
     }
 
     /**

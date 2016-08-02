@@ -879,67 +879,10 @@ public class SensorManagement extends javax.swing.JFrame {
         int r = edit_sengrp_table.getSelectedRow();
         //get the member number of the selected row
 
-        lbl_edit_name.setText(edit_sengrp_table.getValueAt(r, 3).toString());
-        txt_edit_username.setText(edit_sengrp_table.getValueAt(r, 1).toString());
-        txt_edit_email.setText(edit_sengrp_table.getValueAt(r, 2).toString());
-        lbl_edit_type.setText(edit_sengrp_table.getValueAt(r, 4).toString());
     }//GEN-LAST:event_edit_sengrp_tableMouseClicked
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        String name = lbl_edit_name.getText().toString();
-        String email = txt_edit_email.getText().toString();
-        String username = txt_edit_username.getText().toString();
-        String type = lbl_edit_type.getText().toString();
-
-        if (txt_edit_email.getText().isEmpty() | txt_edit_username.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Please fill up the fields.");
-        } else if (type.equalsIgnoreCase("Farmer")) {
-            Farmer fmr = sou.getFarmerByName(name);
-            String password = fmr.getPassword();
-            sou.removeFarmer(fmr);
-
-            Farmer fm = new Farmer(name, username, email, password, type);
-            sou.addFarmer(fm);
-
-            try {
-                sou.serialize();
-                JOptionPane.showMessageDialog(rootPane, "Successfully Saved");
-
-                sou.deserialize();
-                userTableLoad(sou, edit_sengrp_table, scollpane_edit_sengrp);
-                userTableLoad(sou, deleteSensorTable, deleteSensorScrollpane);
-                userTableLoad(sou, addSensorTable, addSensorScrollPane);
-
-                lbl_edit_name.setText(null);
-                txt_edit_email.setText(null);
-                txt_edit_username.setText(null);
-                lbl_edit_type.setText(null);
-            } catch (Exception e1) {
-            }
-        } else if (type.equalsIgnoreCase("Food Processing Manager")) {
-            Manager mnr = sou.getManagerByName(name);
-            String password = mnr.getPassword();
-            sou.removeManager(mnr);
-
-            Manager mn = new Manager(name, username, email, password, type);
-            sou.addManager(mn);
-
-            try {
-                sou.serialize();
-                JOptionPane.showMessageDialog(rootPane, "Successfully Saved");
-
-                sou.deserialize();
-                userTableLoad(sou, edit_sengrp_table, scollpane_edit_sengrp);
-                userTableLoad(sou, deleteSensorTable, deleteSensorScrollpane);
-                userTableLoad(sou, addSensorTable, addSensorScrollPane);
-
-                lbl_edit_name.setText(null);
-                txt_edit_email.setText(null);
-                txt_edit_username.setText(null);
-                lbl_edit_type.setText(null);
-            } catch (Exception e1) {
-            }
-        }
+      
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed

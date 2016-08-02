@@ -16,14 +16,14 @@ import serialization.Serialization;
  */
 public class SensorGroupControl extends Vector<SensorGroup> implements Serializable{
     
-    private static Vector<SensorGroup> SensorGropControl = new Vector<SensorGroup>();
+  
     
-    public static void serialize() throws IOException {
-        Serialization.serialize(SensorGropControl, "SensorGropControl.txt");
+    public  void serialize() throws IOException {
+        Serialization.serialize(this, "SensorGropControl.txt");
     }
     
-    public static void deserialize() throws IOException, ClassNotFoundException {
-        SensorGropControl = (Vector<SensorGroup>) Serialization.deSerialize("SensorGropControl.txt");
+    public  void deserialize() throws IOException, ClassNotFoundException {
+        this.addAll(Serialization.deSerialize("SensorGropControl.txt"));
     }
     
     public SensorGroupControl(){
@@ -44,5 +44,9 @@ public class SensorGroupControl extends Vector<SensorGroup> implements Serializa
             }
         }
         return group;
+    }
+    
+    public void remove(SensorGroup sen){
+        super.remove(sen);
     }
 }
