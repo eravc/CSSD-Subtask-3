@@ -12,8 +12,8 @@ import java.io.Serializable;
  *
  * @author Eranga
  */
-public class Field implements Serializable{
-    
+public class Field implements Serializable {
+
     private int fieldID;
     private double latitude;
     private double lontitude;
@@ -89,6 +89,5 @@ public class Field implements Serializable{
     public void setLocation(String location) {
         this.location = location;
     }
-    
-    
+
 }

@@ -11,7 +11,4 @@ package Fields;
  */
 public class PermenentFieldstation extends FieldStation {
 
-
-
-    
 }

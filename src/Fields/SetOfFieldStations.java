@@ -1,4 +1,3 @@
-
 package Fields;
 
 import Users.Farmer;
@@ -10,16 +9,14 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Vector;
 
+public class SetOfFieldStations extends Vector<FieldStation> implements Serializable {
 
-public class SetOfFieldStations extends Vector<FieldStation> implements Serializable{
-    
-   
     public static Vector<PermenentFieldstation> setOfPermenentFieldstation = new Vector<PermenentFieldstation>();
     public static Vector<PortableFieldstation> setOfPortableFieldstation = new Vector<PortableFieldstation>();
 
     public static void serialize() throws IOException {
-    Serialization.serialize(setOfPermenentFieldstation, "PermenentFieldstation.txt");
-    Serialization.serialize(setOfPortableFieldstation, "PortableFieldstation.txt");
+        Serialization.serialize(setOfPermenentFieldstation, "PermenentFieldstation.txt");
+        Serialization.serialize(setOfPortableFieldstation, "PortableFieldstation.txt");
     }
 
     public static void deserialize() throws IOException, ClassNotFoundException {
@@ -33,47 +30,44 @@ public class SetOfFieldStations extends Vector<FieldStation> implements Serializ
 
     public static void addManager(PortableFieldstation porfs) {
         setOfPortableFieldstation.add(porfs);
-    } 
-    
-    public static Vector<PermenentFieldstation> getAllPermenentFieldstation(){
+    }
+
+    public static Vector<PermenentFieldstation> getAllPermenentFieldstation() {
         return setOfPermenentFieldstation;
     }
-    
-    public static Vector<PortableFieldstation> getAllPortableFieldstation(){
+
+    public static Vector<PortableFieldstation> getAllPortableFieldstation() {
         return setOfPortableFieldstation;
     }
 
-    public PermenentFieldstation getPermenentFieldstationByName(String name){
+    public PermenentFieldstation getPermenentFieldstationByName(String name) {
         PermenentFieldstation pfs = null;
-        
-        for(PermenentFieldstation permfs: setOfPermenentFieldstation){
-            if(permfs.getName().equalsIgnoreCase(name)){
-              pfs= permfs; 
+
+        for (PermenentFieldstation permfs : setOfPermenentFieldstation) {
+            if (permfs.getName().equalsIgnoreCase(name)) {
+                pfs = permfs;
             }
         }
         return pfs;
     }
-    
-    public PortableFieldstation getPortableFieldstationByName(String name){
+
+    public PortableFieldstation getPortableFieldstationByName(String name) {
         PortableFieldstation mn = null;
-        
-        for(PortableFieldstation prfs: setOfPortableFieldstation){
-            if(prfs.getName().equalsIgnoreCase(name)){
-              mn=prfs; 
+
+        for (PortableFieldstation prfs : setOfPortableFieldstation) {
+            if (prfs.getName().equalsIgnoreCase(name)) {
+                mn = prfs;
             }
         }
         return mn;
     }
-    
-    public static void removePermenentFieldstation(PermenentFieldstation permfs){
+
+    public static void removePermenentFieldstation(PermenentFieldstation permfs) {
         setOfPermenentFieldstation.removeElement(permfs);
     }
-    
-    public static void removePortableFieldstation(PortableFieldstation pfs){
+
+    public static void removePortableFieldstation(PortableFieldstation pfs) {
         setOfPortableFieldstation.removeElement(pfs);
     }
 
-
-    
-    
 }

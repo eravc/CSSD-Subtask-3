@@ -1,17 +1,16 @@
-
 package Fields;
+
 import java.io.Serializable;
 
+public class FieldStation implements Serializable {
 
-public class FieldStation implements Serializable{
- 
- private int fieldStationID;
- private Field field;
- private int userID;
-private String name;
-private String location;
-private double longtitude;
-private double latitude;
+    private int fieldStationID;
+    private Field field;
+    private int userID;
+    private String name;
+    private String location;
+    private double longtitude;
+    private double latitude;
 
     /**
      * @return the fieldStationID
@@ -110,12 +109,8 @@ private double latitude;
     public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
- 
 
     /**
      * @return the fieldStationID
      */
- 
- 
-    
 }
