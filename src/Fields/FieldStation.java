@@ -1,16 +1,31 @@
 package Fields;
 
+import Sensors.SensorGroup;
+import Users.Farmer;
 import java.io.Serializable;
 
 public class FieldStation implements Serializable {
 
     private int fieldStationID;
-    private Field field;
-    private int userID;
     private String name;
     private String location;
-    private double longtitude;
-    private double latitude;
+    private String type;
+    private Farmer farmer;
+    private Field field;
+    private SensorGroup group;
+
+    public FieldStation() {
+    }
+
+    public FieldStation(int fieldStationID, String name, String location, String type, Farmer farmer, Field field, SensorGroup group) {
+        this.fieldStationID = fieldStationID;
+        this.name = name;
+        this.location = location;
+        this.type = type;
+        this.farmer = farmer;
+        this.field = field;
+        this.group = group;
+    }
 
     /**
      * @return the fieldStationID
@@ -24,34 +39,6 @@ public class FieldStation implements Serializable {
      */
     public void setFieldStationID(int fieldStationID) {
         this.fieldStationID = fieldStationID;
-    }
-
-    /**
-     * @return the field
-     */
-    public Field getField() {
-        return field;
-    }
-
-    /**
-     * @param field the field to set
-     */
-    public void setField(Field field) {
-        this.field = field;
-    }
-
-    /**
-     * @return the userID
-     */
-    public int getUserID() {
-        return userID;
-    }
-
-    /**
-     * @param userID the userID to set
-     */
-    public void setUserID(int userID) {
-        this.userID = userID;
     }
 
     /**
@@ -83,34 +70,60 @@ public class FieldStation implements Serializable {
     }
 
     /**
-     * @return the longtitude
+     * @return the type
      */
-    public double getLongtitude() {
-        return longtitude;
+    public String getType() {
+        return type;
     }
 
     /**
-     * @param longtitude the longtitude to set
+     * @param type the type to set
      */
-    public void setLongtitude(double longtitude) {
-        this.longtitude = longtitude;
+    public void setType(String type) {
+        this.type = type;
     }
 
     /**
-     * @return the latitude
+     * @return the userID
      */
-    public double getLatitude() {
-        return latitude;
+    public Farmer getFarmer() {
+        return farmer;
     }
 
     /**
-     * @param latitude the latitude to set
+     * @param userID the userID to set
      */
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
+    public void getFarmer(Farmer userID) {
+        this.farmer = userID;
     }
 
     /**
-     * @return the fieldStationID
+     * @return the field
      */
+    public Field getField() {
+        return field;
+    }
+
+    /**
+     * @param field the field to set
+     */
+    public void setField(Field field) {
+        this.field = field;
+    }
+
+    /**
+     * @return the group
+     */
+    public SensorGroup getGroup() {
+        return group;
+    }
+
+    /**
+     * @param group the group to set
+     */
+    public void setGroup(SensorGroup group) {
+        this.group = group;
+    }
+
+    
 }

@@ -5,10 +5,18 @@
  */
 package Fields;
 
+import Sensors.SensorGroup;
+import Users.Farmer;
+
 /**
  *
  * @author Eranga
  */
 public class PermenentFieldstation extends FieldStation {
+
+    public PermenentFieldstation(int fieldStationID, String name, String location, String type, Farmer farmer, Field field, SensorGroup group) {
+        super(fieldStationID, name, location, type, farmer, field, group);
+    }
+
 
 }

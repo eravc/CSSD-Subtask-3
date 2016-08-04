@@ -19,7 +19,7 @@ public class SetOfFieldStations extends Vector<FieldStation> implements Serializ
         Serialization.serialize(setOfPortableFieldstation, "PortableFieldstation.txt");
     }
 
-    public static void deserialize() throws IOException, ClassNotFoundException {
+    public static void deSerialize() throws IOException, ClassNotFoundException {
         setOfPermenentFieldstation = (Vector<PermenentFieldstation>) Serialization.deSerialize("PermenentFieldstation.txt");
         setOfPortableFieldstation = (Vector<PortableFieldstation>) Serialization.deSerialize("PortableFieldstation.txt");
     }
@@ -28,7 +28,7 @@ public class SetOfFieldStations extends Vector<FieldStation> implements Serializ
         setOfPermenentFieldstation.add(pfs);
     }
 
-    public static void addManager(PortableFieldstation porfs) {
+    public static void addPortableFieldstation(PortableFieldstation porfs) {
         setOfPortableFieldstation.add(porfs);
     }
 
@@ -56,6 +56,28 @@ public class SetOfFieldStations extends Vector<FieldStation> implements Serializ
 
         for (PortableFieldstation prfs : setOfPortableFieldstation) {
             if (prfs.getName().equalsIgnoreCase(name)) {
+                mn = prfs;
+            }
+        }
+        return mn;
+    }
+    
+    public PermenentFieldstation getPermenentFieldstationById(int id) {
+        PermenentFieldstation pfs = null;
+
+        for (PermenentFieldstation permfs : setOfPermenentFieldstation) {
+            if (permfs.getFieldStationID() == id) {
+                pfs = permfs;
+            }
+        }
+        return pfs;
+    }
+
+    public PortableFieldstation getPortableFieldstationById(int id) {
+        PortableFieldstation mn = null;
+
+        for (PortableFieldstation prfs : setOfPortableFieldstation) {
+            if (prfs.getFieldStationID() == id) {
                 mn = prfs;
             }
         }

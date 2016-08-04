@@ -38,6 +38,16 @@ public class setOfUsers implements Serializable{
         return setOfFarmers;
     }
 
+    public Farmer getFarmerById(int id){
+        Farmer fm = null;
+        
+        for(Farmer user: setOfFarmers){
+            if(user.getUserId() == id){
+              fm = user; 
+            }
+        }
+        return fm;
+    }
     public Farmer getFarmerByName(String name){
         Farmer fm = null;
         

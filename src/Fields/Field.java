@@ -5,6 +5,7 @@
  */
 package Fields;
 
+import Crops.Crop;
 import Users.Farmer;
 import java.io.Serializable;
 
@@ -19,6 +20,32 @@ public class Field implements Serializable {
     private double lontitude;
     private Farmer owner;
     private String location;
+    private Crop crop;
+
+    /***
+     * 
+     */
+    public Field() {
+    }
+
+    /**
+     * *
+     *
+     * @param fieldID
+     * @param latitude
+     * @param lontitude
+     * @param owner
+     * @param location
+     * @param crop
+     */
+    public Field(int fieldID, double latitude, double lontitude, String location, Farmer owner, Crop crop) {
+        this.fieldID = fieldID;
+        this.latitude = latitude;
+        this.lontitude = lontitude;
+        this.owner = owner;
+        this.location = location;
+        this.crop = crop;
+    }
 
     /**
      * @return the fieldID
@@ -88,6 +115,20 @@ public class Field implements Serializable {
      */
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    /**
+     * @return the crop
+     */
+    public Crop getCrop() {
+        return crop;
+    }
+
+    /**
+     * @param crop the crop to set
+     */
+    public void setCrop(Crop crop) {
+        this.crop = crop;
     }
 
 }
